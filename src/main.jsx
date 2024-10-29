@@ -9,7 +9,10 @@ import routes from "./routes/routes.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <NextUIProvider>
-      <RouterProvider router={routes} />
+      <div className="font-arbo ">
+        {" "}
+        <RouterProvider router={routes} />
+      </div>
     </NextUIProvider>
   </StrictMode>
 );

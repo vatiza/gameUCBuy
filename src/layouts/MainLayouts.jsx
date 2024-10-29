@@ -5,7 +5,10 @@ const MainLayouts = () => {
   return (
     <div>
       <Nav />
-      <Outlet />
+      <div className="mx-3">
+        {" "}
+        <Outlet />
+      </div>
     </div>
   );
 };

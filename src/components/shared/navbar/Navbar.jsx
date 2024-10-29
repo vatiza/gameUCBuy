@@ -31,17 +31,17 @@ const Nav = () => {
           </div>
         </NavbarContent>
         <Input
-          className=" w-full lg:w-2/6"
+          className=" w-full lg:w-3/6"
           type="text"
           placeholder="Search..."
           labelPlacement="outside"
         />
         <div>
           <div>
-            <NavbarContent className="hidden sm:flex gap-4">
+            <NavbarContent className="hidden sm:flex gap-4  ">
               {menuItems.map((item, index) => (
                 <NavbarItem key={`${item}-${index}`}>
-                  <Link>{item}</Link>
+                  <Link className="hover:font-bold">{item}</Link>
                 </NavbarItem>
               ))}
             </NavbarContent>
@@ -87,7 +87,7 @@ const Nav = () => {
           ))}
         </NavbarMenu>
       </Navbar>
-      <Divider className="my-4" />
+      <Divider className="my-2" />
     </>
   );
 };
