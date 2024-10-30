@@ -1,0 +1,132 @@
+[
+    {
+      "category":"Gift Card",
+      "title": "Garena Free Fire",
+      "description": "Fast-paced battle royale game optimized for mobile devices.",
+      "image": "https://i.postimg.cc/GhQdVmt1/unnamed.png",
+      "rating": 4.3,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 75,
+        "60 UC": 105,
+        "500 UC": 780
+      }
+    },
+    {
+      "category":"Game",
+      "title": "Fortnite",
+      "description": "Popular battle royale game with vibrant graphics and emotes.",
+      "image": "https://i.postimg.cc/zGvZQw4n/social-image-chapter4-s3-3840x2160-d35912cc25ad.jpg",
+      "rating": 4.4,
+      "price": "1000-23000",
+      "uc": {
+        "30 VBucks": 85,
+        "60 VBucks": 125,
+        "500 VBucks": 900
+      }
+    },
+    {
+      "category":"Game",
+      "title": "Clash of Clans",
+      "description": "Strategy game where you build your village, raise a clan, and compete in epic clan wars.",
+      "image": "https://i.postimg.cc/GtjwWXcj/builders-apprentice-clash-of-clans.avif",
+      "rating": 4.7,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 85,
+        "60 UC": 120,
+        "500 UC": 850
+      }
+    },
+    {
+      "category":"Game",
+      "title": "League of Legends: Wild Rift",
+      "description": "5v5 MOBA game optimized for mobile with intense, skill-based combat.",
+      "image": "https://i.postimg.cc/3xdV18D1/wr-cb1-announcementarticle-banner-1920x1080.png",
+      "rating": 4.4,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 90,
+        "60 UC": 135,
+        "500 UC": 910
+      }
+    },
+    {
+      "category":"Gift Card",
+      "title": "Minecraft",
+      "description": "Open-world sandbox game where players explore, build, and survive.",
+      "image": "https://i.postimg.cc/mkBKy7Q1/Homepage-Discover-our-games-MC-Vanilla-Key-Art-864x864.jpg",
+      "rating": 4.8,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 95,
+        "60 UC": 145,
+        "500 UC": 920
+      }
+    },
+    {
+      "category":"Game",
+      "title": "PUBG Mobile",
+      "description": "Battle royale game where 100 players fight to be the last one standing.",
+      "image": "https://i.postimg.cc/WzmT227g/PUBG-Mobile.webp",
+      "rating": 4.5,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 80,
+        "60 UC": 110,
+        "500 UC": 800
+      }
+    },
+    {
+      "category":"Gift Card",
+      "title": "Among Us",
+      "description": "Multiplayer game where players work together to find the impostor among them.",
+      "image": "https://i.postimg.cc/y6yMYrHm/Among-Us-cover-art.jpg",
+      "rating": 4.2,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 70,
+        "60 UC": 110,
+        "500 UC": 750
+      }
+    },
+    {
+      "category":"Gift Card",
+      "title": "Clash Royale",
+      "description": "Real-time multiplayer game starring the Royales, your favorite Clash characters.",
+      "image": "https://i.postimg.cc/sDVRYCcH/og-clashroyale-d235f90b.webp",
+      "rating": 4.6,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 80,
+        "60 UC": 115,
+        "500 UC": 830
+      }
+    },
+    {
+      "category":"Gift Card",
+      "title": "Call of Duty Mobile",
+      "description": "First-person shooter game with battle royale and multiplayer modes.",
+      "image": "https://i.postimg.cc/TwrZbtWX/Call-of-Duty-Mobile-game-2-20230406100044214.jpg",
+      "rating": 4.5,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 90,
+        "60 UC": 130,
+        "500 UC": 880
+      }
+    },
+    {
+      "category":"Gift Card",
+      "title": "Brawl Stars",
+      "description": "Fast-paced 3v3 multiplayer and battle royale game.",
+      "image": "https://i.postimg.cc/3JrPyC8P/games-thumbnail-brawlstars-5cd76330.jpg",
+      "rating": 4.3,
+      "price": "1000-23000",
+      "uc": {
+        "30 UC": 85,
+        "60 UC": 125,
+        "500 UC": 870
+      }
+    }
+  ]
