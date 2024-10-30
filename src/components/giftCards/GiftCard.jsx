@@ -8,7 +8,7 @@ const GiftCard = () => {
   const giftCards = products.filter(
     (product) => product.category === "Gift Card"
   );
-  console.log(giftCards);
+  const giftCardsSlice = giftCards.slice(0, 6);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -17,12 +17,12 @@ const GiftCard = () => {
       <div className="text-center lg:flex justify-between">
         <h1 className="text-2xl uppercase font-bold ">Gift Cards</h1>
         <Button className="hidden lg:flex" color="primary" variant="solid">
-          <Link to="/">More Products</Link>
+          <Link to="/shop">More Products</Link>
         </Button>
       </div>
       <Divider className="my-2" />
       <div className="grid grid-cols-2 lg:grid-cols-4 p-3 gap-2.5">
-        {giftCards.map((product) => (
+        {giftCardsSlice.map((product) => (
           <ProductsCard key={product._id} product={product} />
         ))}
       </div>
