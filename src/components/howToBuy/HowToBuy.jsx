@@ -1,7 +1,7 @@
 const HowToBuy = () => {
   const isMobile = window.screen.width < 700;
   return (
-    <div className="mt-5">
+    <div className="mt-5 max-h-screen">
       <h1 className="text-xl underline">HOW TO BUY PRODUCTS?</h1>
       <div className="grid grid-rows-1 lg:grid-cols-2 items-center  ">
         <div className="p-4  mx-auto">

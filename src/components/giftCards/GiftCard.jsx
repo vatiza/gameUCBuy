@@ -31,7 +31,7 @@ const GiftCard = () => {
         color="primary"
         variant="solid"
       >
-        <Link to="/">More Products</Link>
+        <Link to="/shop?category=gift card">More Products</Link>
       </Button>
     </div>
   );

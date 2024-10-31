@@ -1,7 +1,8 @@
 import { Button, Divider } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import useProducts from "../../hooks/useProducts";
-import ProductsCard from "../shared/productsCard/ProductsCard";
+
+import ProductsCard from "../shared/productsCard/productsCard";
 
 const GameRecharge = () => {
   const [products, loading] = useProducts();
@@ -32,7 +33,7 @@ const GameRecharge = () => {
         color="primary"
         variant="solid"
       >
-        <Link to="/shop">More Products</Link>
+        <Link to="/shop?category=game">More Products</Link>
       </Button>
     </div>
   );
