@@ -17,7 +17,7 @@ const GiftCard = () => {
       <div className="text-center lg:flex justify-between">
         <h1 className="text-2xl uppercase font-bold ">Gift Cards</h1>
         <Button className="hidden lg:flex" color="primary" variant="solid">
-          <Link to="/shop">More Products</Link>
+          <Link to="/shop?category=gift card">More Products</Link>
         </Button>
       </div>
       <Divider className="my-2" />

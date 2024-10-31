@@ -1,7 +1,7 @@
 const HowToBuy = () => {
   const isMobile = window.screen.width < 700;
   return (
-    <div>
+    <div className="mt-5">
       <h1 className="text-xl underline">HOW TO BUY PRODUCTS?</h1>
       <div className="grid grid-rows-1 lg:grid-cols-2 items-center  ">
         <div className="p-4  mx-auto">
@@ -116,7 +116,6 @@ const HowToBuy = () => {
           width={isMobile ? 350 : 600}
           height={isMobile ? 200 : 600}
           frameBorder="0"
-          allowfullscreen
         ></iframe>
       </div>
     </div>
