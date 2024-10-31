@@ -1,27 +1,34 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
+
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import ProductsCard from "../../components/shared/productsCard/productsCard";
 
 const AllProducts = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   let category = query.get("category");
-  console.log(category);
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch(
-        `http://localhost:5000/products?category=${category}`
-      );
-      const data = await response.json();
-      setProducts(data);
-    };
-    fetchProducts();
-  }, [category]);
-  console.log(products);
+  const axiosPublic = useAxiosPublic();
+  const { data: products = [], isLoading: loading } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/products?category=${category}`);
+      return res.data;
+    },
+  });
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <h1> SHow all PRoducts</h1>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 p-3 gap-2.5">
+        {products.map((product) => (
+          <ProductsCard key={product._id} product={product} />
+        ))}
+      </div>
     </div>
   );
 };

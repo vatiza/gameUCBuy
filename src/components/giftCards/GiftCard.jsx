@@ -1,7 +1,7 @@
 import { Button, Divider } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-import ProductsCard from "../shared/productsCard/ProductsCard";
 import useProducts from "../../hooks/useProducts";
+import ProductsCard from "../shared/productsCard/productsCard";
 
 const GiftCard = () => {
   const [products, loading] = useProducts();
