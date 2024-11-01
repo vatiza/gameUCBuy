@@ -6,12 +6,24 @@ import { useLoaderData } from "react-router-dom";
 
 const ProductsDetails = () => {
   const [product] = useLoaderData();
-  const { title, image, description, rating, uc } = product;
+  const { title, image, description, rating, uc, price } = product;
   const [selectedPrice, setSelectedPrice] = useState(null);
+  const [orderUc, setOrderUc] = useState(null);
 
   if (!product) {
     return <div>Loading...</div>;
   }
+  const handleSelectUc = (ucItem, ucPrice) => {
+    setSelectedPrice(ucPrice);
+    setOrderUc(ucItem);
+  };
+
+  const handleAddCart = () => {
+    if (!orderUc && selectedPrice === null) {
+      console.error("Please select UC or price");
+    }
+    console.log(orderUc, selectedPrice);
+  };
 
   return (
     <div className="grid grid-flow-row lg:grid-cols-2 gap-2">
@@ -21,13 +33,19 @@ const ProductsDetails = () => {
       <div>
         <h1 className="text-xl lg:text-2xl">{title}</h1>
         <p>{description}</p>
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <Rating style={{ maxWidth: 100 }} value={rating} readOnly></Rating>
           <span className="text-sm ml-2">({rating} out of 5)</span>
         </div>
-        <div>
-          {selectedPrice && (
-            <p className="text-lg font-semibold mt-2">{selectedPrice}</p>
+        <div className="mt-5">
+          {selectedPrice ? (
+            <>
+              <p className="text-lg font-semibold mt-2">{selectedPrice}৳</p>
+            </>
+          ) : (
+            <>
+              <p>{price}৳</p>
+            </>
           )}
           {Object.entries(uc).map(([ucItem, ucPrice], index) => (
             <Button
@@ -35,13 +53,26 @@ const ProductsDetails = () => {
               key={index}
               className="mx-2 border"
               size="sm"
-              onClick={() =>
-                setSelectedPrice(`Price for ${ucItem}: ${ucPrice}`)
-              }
+              onClick={() => handleSelectUc(ucItem, ucPrice)}
             >
               {ucItem}
             </Button>
           ))}
+        </div>
+        <div className="mt-2 ml-2">
+          {selectedPrice ? (
+            <>
+              <Button
+                onClick={() => setSelectedPrice(null)}
+                color="danger"
+                size="sm"
+              >
+                Clear
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="mt-5">
           <div>
@@ -71,8 +102,8 @@ const ProductsDetails = () => {
             />
           </div>
           <div className="flex  justify-evenly mt-5">
-            <Button size="lg" color="primary">
-              Att To Cart
+            <Button onClick={() => handleAddCart()} size="lg" color="primary">
+              Add To Cart
             </Button>
             <Button size="lg" color="success">
               Buy Now
