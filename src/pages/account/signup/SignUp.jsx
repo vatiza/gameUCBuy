@@ -4,8 +4,9 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import signupImg from "../../../assets/svg/signup.svg";
 import SocialLoginBtn from "../../../components/shared/button/SocialLoginBtn";
-import useAuth from "../../../hooks/useAuth";
+
 import toast, { Toaster } from "react-hot-toast";
+import useAuth from "../../../hooks/useAuth";
 const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();

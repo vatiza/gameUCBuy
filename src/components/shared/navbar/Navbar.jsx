@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Button,
   Divider,
   Dropdown,
@@ -16,7 +17,9 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { Link } from "react-router-dom";
+import { CartIcon } from "../../../assets/svg/CartIcon";
 import useAuth from "../../../hooks/useAuth";
+
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const menuItems = ["Home", "Shop", "PUBG", "Free Fire ", "Contact"];
@@ -54,56 +57,110 @@ const Nav = () => {
             </NavbarContent>
           </div>
         </div>
-        <div>
+        <div className="flex items-center  gap-3">
           {user ? (
             <>
-              {" "}
-              <Dropdown placement="bottom-end">
-                <DropdownTrigger>
-                  <Avatar
-                    isBordered
-                    as="button"
-                    className="transition-transform"
-                    color="secondary"
-                    name="Jason Hughes"
-                    size="sm"
-                    src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                  />
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Profile Actions" variant="flat">
-                  <DropdownItem key="profile" className="h-14 gap-2">
-                    <p className="font-semibold">Signed in as</p>
-                    <p className="font-semibold">{user.email}</p>
-                  </DropdownItem>
-                  <DropdownItem key="settings">My Settings</DropdownItem>
-                  <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                  <DropdownItem key="analytics">Analytics</DropdownItem>
-                  <DropdownItem key="system">System</DropdownItem>
-                  <DropdownItem key="configurations">
-                    Configurations
-                  </DropdownItem>
-                  <DropdownItem key="help_and_feedback">
-                    Help & Feedback
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => handleLogout()}
-                    key="logout"
-                    color="danger"
-                  >
-                    Log Out
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </>
-          ) : (
-            <>
-              <div className="flex items-center gap-3">
-                <Link to="/login">
-                  <Button color="primary">Login</Button>
-                </Link>
+              <div>
+                <Dropdown placement="bottom-end">
+                  <DropdownTrigger>
+                    <Button
+                      aria-label="products cart notifications"
+                      variant="light"
+                    >
+                      <Badge content="5" shape="circle" color="danger">
+                        <CartIcon size={28} />
+                      </Badge>
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="cart Actions" variant="flat">
+                    <DropdownItem
+                      textValue="cart"
+                      key="cart"
+                      className="h-14 gap-2"
+                    >
+                      <p className="font-semibold">Cart List</p>
+
+                      <Divider />
+                    </DropdownItem>
+
+                    <DropdownItem
+                      textValue="sub"
+                      className="mt-4"
+                      key="logout"
+                      color="danger"
+                    >
+                      <div className="flex items-center justify-between mt-2 ">
+                        <h1>Subtotal:</h1>
+                        <h1>570</h1>
+                      </div>
+                    </DropdownItem>
+                    <DropdownItem textValue="btn">
+                      <Button color="primary">Proceed To Checkout</Button>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
             </>
+          ) : (
+            <></>
           )}
+          <div>
+            {user ? (
+              <>
+                {" "}
+                <Dropdown placement="bottom-end">
+                  <DropdownTrigger>
+                    <Avatar
+                      isBordered
+                      as="button"
+                      className="transition-transform"
+                      color="secondary"
+                      name="Jason Hughes"
+                      size="sm"
+                      src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                    />
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Profile Actions" variant="flat">
+                    <DropdownItem
+                      textValue="profile"
+                      key="profile"
+                      className="h-14 gap-2"
+                    >
+                      <p className="font-semibold">Signed in as</p>
+                      <p className="font-semibold">{user.email}</p>
+                    </DropdownItem>
+                    <DropdownItem key="settings">My Settings</DropdownItem>
+                    <DropdownItem key="team_settings">
+                      Team Settings
+                    </DropdownItem>
+                    <DropdownItem key="analytics">Analytics</DropdownItem>
+                    <DropdownItem key="system">System</DropdownItem>
+                    <DropdownItem key="configurations">
+                      Configurations
+                    </DropdownItem>
+                    <DropdownItem key="help_and_feedback">
+                      Help & Feedback
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleLogout()}
+                      key="logout"
+                      color="danger"
+                    >
+                      Log Out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-3">
+                  <Link to="/login">
+                    <Button color="primary">Login</Button>
+                  </Link>
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         <NavbarMenu>

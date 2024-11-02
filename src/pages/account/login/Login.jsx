@@ -4,13 +4,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLoginBtn from "../../../components/shared/button/SocialLoginBtn";
 import { useState } from "react";
 import loginImg from "../../../assets/svg/login.svg";
-import useAuth from "../../../hooks/useAuth";
+
 import toast, { Toaster } from "react-hot-toast";
+import useAuth from "../../../hooks/useAuth";
 const Login = () => {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
@@ -104,7 +104,7 @@ const Login = () => {
                     </div>
                     <input
                       type="submit"
-                      className="mt-5 btn tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                      className="mt-5 btn tracking-wide font-semibold bg-blue-600 text-white w-full py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                       value="Login"
                     />
                   </div>
@@ -137,7 +137,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };
