@@ -16,10 +16,15 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const menuItems = ["Home", "Shop", "PUBG", "Free Fire ", "Contact"];
-  const isUser = true; // replace with your login state
+  const { user, logoutUser } = useAuth();
+  console.log(user);
+  const handleLogout = () => {
+    logoutUser().then(() => {});
+  };
   return (
     <>
       <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -50,7 +55,7 @@ const Nav = () => {
           </div>
         </div>
         <div>
-          {isUser ? (
+          {user ? (
             <>
               {" "}
               <Dropdown placement="bottom-end">
@@ -68,7 +73,7 @@ const Nav = () => {
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
                   <DropdownItem key="profile" className="h-14 gap-2">
                     <p className="font-semibold">Signed in as</p>
-                    <p className="font-semibold">zoey@example.com</p>
+                    <p className="font-semibold">{user.email}</p>
                   </DropdownItem>
                   <DropdownItem key="settings">My Settings</DropdownItem>
                   <DropdownItem key="team_settings">Team Settings</DropdownItem>
@@ -80,7 +85,11 @@ const Nav = () => {
                   <DropdownItem key="help_and_feedback">
                     Help & Feedback
                   </DropdownItem>
-                  <DropdownItem key="logout" color="danger">
+                  <DropdownItem
+                    onClick={() => handleLogout()}
+                    key="logout"
+                    color="danger"
+                  >
                     Log Out
                   </DropdownItem>
                 </DropdownMenu>
@@ -89,8 +98,9 @@ const Nav = () => {
           ) : (
             <>
               <div className="flex items-center gap-3">
-                <Button color="primary">Login</Button>
-                <Button color="primary">Sign Up</Button>
+                <Link to="/login">
+                  <Button color="primary">Login</Button>
+                </Link>
               </div>
             </>
           )}
