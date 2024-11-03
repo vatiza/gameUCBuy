@@ -17,7 +17,7 @@ const useCart = () => {
       return res.data;
     },
   });
-  return [cart, loading, refetch];
+  return [cart, refetch, loading];
 };
 
 export default useCart;

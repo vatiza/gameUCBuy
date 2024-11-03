@@ -2,14 +2,21 @@ import { Button, Divider, Image, Input } from "@nextui-org/react";
 import { Rating } from "@smastrom/react-rating";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import toast, { Toaster } from "react-hot-toast";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { useLoaderData } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useCart from "../../hooks/useCart";
 
 const ProductsDetails = () => {
   const [product] = useLoaderData();
   const { title, image, description, rating, uc, price } = product;
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [orderUc, setOrderUc] = useState(null);
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const [, refetch] = useCart();
 
   if (!product) {
     return <div>Loading...</div>;
@@ -20,10 +27,25 @@ const ProductsDetails = () => {
   };
 
   const handleAddCart = () => {
-    if (!orderUc && selectedPrice === null) {
-      console.error("Please select UC or price");
+    if (!orderUc || selectedPrice === null) {
+      toast.error("Please select UC");
     }
-   
+    if (orderUc && selectedPrice && user && user.email) {
+      const cartItems = {
+        email: user.email,
+        product: title,
+        price: selectedPrice,
+        uc: orderUc,
+        image: image,
+      };
+      axiosSecure.post("/carts", cartItems).then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          console.log("Item added to cart");
+          refetch();
+        }
+      });
+    }
   };
 
   return (
@@ -127,6 +149,7 @@ const ProductsDetails = () => {
           </div>
         </div>
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };
