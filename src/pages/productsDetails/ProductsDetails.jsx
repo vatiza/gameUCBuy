@@ -38,8 +38,18 @@ const ProductsDetails = () => {
     const playerName = data.playerName;
     if (!orderUc || selectedPrice === null) {
       toast.error("Please select UC");
-    }
-    if (orderUc && selectedPrice && user && user.email) {
+    } else if (!user || user?.email) {
+      console.log("Please login to buy this product");
+      Swal.fire({
+        title: "You must be log in",
+        showCancelButton: true,
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { replace: true });
+        }
+      });
+    } else {
       const cartItems = {
         email: user?.email,
         title: title,
@@ -55,18 +65,6 @@ const ProductsDetails = () => {
           console.log("Item added to cart");
           toast.success("Product added to cart");
           refetch();
-        }
-      });
-    } else {
-      console.log("Please login to add to cart");
-      Swal.fire({
-        title: "You must be log in",
-
-        showCancelButton: true,
-        confirmButtonText: "Login",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login", { replace: true });
         }
       });
     }

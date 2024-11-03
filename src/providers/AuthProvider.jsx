@@ -40,7 +40,6 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
       } else {
         localStorage.removeItem("jwt");
-        console.log("No token found");
       }
     });
     return () => unsubscribe();

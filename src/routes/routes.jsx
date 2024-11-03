@@ -24,7 +24,7 @@ const routes = createBrowserRouter([
         element: <ProductsDetails />,
         loader: ({ params }) =>
           //
-          fetch(`https://server-uc-shop.vercel.app/products/${params.id}`),
+          fetch(`http://localhost:5000/products/${params.id}`),
       },
     ],
   },

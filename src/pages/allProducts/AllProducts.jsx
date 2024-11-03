@@ -9,7 +9,6 @@ const AllProducts = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   let category = query.get("category");
-
   const axiosPublic = useAxiosPublic();
   const { data: products = [], isLoading: loading } = useQuery({
     queryKey: ["products"],

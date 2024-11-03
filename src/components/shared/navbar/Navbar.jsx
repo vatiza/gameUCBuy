@@ -12,18 +12,26 @@ import {
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarMenuToggle
+  NavbarMenuToggle,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Cart from "../cart/cart";
+import useProducts from "../../../hooks/useProducts";
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const menuItems = ["Home", "Shop", "PUBG", "Free Fire ", "Contact"];
   const { user, logoutUser } = useAuth();
- 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [products, loading, refetch] = useProducts({ title: searchTerm });
+  console.log(products);
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    refetch();
+  };
+
   const handleLogout = () => {
     logoutUser().then(() => {});
   };
@@ -43,8 +51,10 @@ const Nav = () => {
           className=" w-full lg:w-3/6"
           type="text"
           placeholder="Search..."
-          labelPlacement="outside"
+          value={searchTerm}
+          onChange={handleSearch}
         />
+
         <div>
           <div>
             <NavbarContent className="hidden sm:flex gap-4  ">
