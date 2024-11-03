@@ -23,7 +23,7 @@ const ProductsDetails = () => {
     if (!orderUc && selectedPrice === null) {
       console.error("Please select UC or price");
     }
-    console.log(orderUc, selectedPrice);
+   
   };
 
   return (

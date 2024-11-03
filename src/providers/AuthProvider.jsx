@@ -7,11 +7,13 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { app } from "../config/firebase/firebaseConfig";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState(false);
   const [loading, setLoading] = useState(true);
   const createNewAccount = (email, password) => {
@@ -28,12 +30,21 @@ const AuthProvider = ({ children }) => {
       setUser(user);
 
       if (user) {
+        const userInfo = { email: user.email };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("jwt", res.data.token);
+          }
+        });
+
         setLoading(false);
-        console.log("User logged in:", user);
+      } else {
+        localStorage.removeItem("jwt");
+        console.log("No token found");
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [axiosPublic]);
   const logoutUser = () => {
     setLoading(true);
     return signOut(auth);

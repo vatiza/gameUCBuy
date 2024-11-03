@@ -23,7 +23,7 @@ const Login = () => {
     const pass = data.password;
     loginUser(email, pass)
       .then((res) => {
-        console.log(res);
+        
         navigate(from, { replace: true });
       })
       .catch((error) => {

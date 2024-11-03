@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Badge,
   Button,
   Divider,
   Dropdown,
@@ -13,18 +12,18 @@ import {
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarMenuToggle,
+  NavbarMenuToggle
 } from "@nextui-org/react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { CartIcon } from "../../../assets/svg/CartIcon";
 import useAuth from "../../../hooks/useAuth";
+import Cart from "../cart/cart";
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const menuItems = ["Home", "Shop", "PUBG", "Free Fire ", "Contact"];
   const { user, logoutUser } = useAuth();
-  console.log(user);
+ 
   const handleLogout = () => {
     logoutUser().then(() => {});
   };
@@ -60,46 +59,7 @@ const Nav = () => {
         <div className="flex items-center  gap-3">
           {user ? (
             <>
-              <div>
-                <Dropdown placement="bottom-end">
-                  <DropdownTrigger>
-                    <Button
-                      aria-label="products cart notifications"
-                      variant="light"
-                    >
-                      <Badge content="5" shape="circle" color="danger">
-                        <CartIcon size={28} />
-                      </Badge>
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="cart Actions" variant="flat">
-                    <DropdownItem
-                      textValue="cart"
-                      key="cart"
-                      className="h-14 gap-2"
-                    >
-                      <p className="font-semibold">Cart List</p>
-
-                      <Divider />
-                    </DropdownItem>
-
-                    <DropdownItem
-                      textValue="sub"
-                      className="mt-4"
-                      key="logout"
-                      color="danger"
-                    >
-                      <div className="flex items-center justify-between mt-2 ">
-                        <h1>Subtotal:</h1>
-                        <h1>570</h1>
-                      </div>
-                    </DropdownItem>
-                    <DropdownItem textValue="btn">
-                      <Button color="primary">Proceed To Checkout</Button>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </div>
+              <Cart />
             </>
           ) : (
             <></>

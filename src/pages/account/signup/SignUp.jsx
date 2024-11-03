@@ -24,7 +24,7 @@ const SignUp = () => {
     createNewAccount(email, pass)
       .then((res) => {
         toast.success("Successfully toasted!");
-        console.log(res.user);
+       
         navigate(from, { replace: true });
       })
       .catch((error) => {
