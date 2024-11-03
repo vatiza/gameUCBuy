@@ -2,13 +2,14 @@ import { Button, Divider, Image, Input } from "@nextui-org/react";
 import { Rating } from "@smastrom/react-rating";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
-import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const ProductsDetails = () => {
   const {
@@ -23,6 +24,7 @@ const ProductsDetails = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [, refetch] = useCart();
+  const navigate = useNavigate();
 
   if (!product) {
     return <div>Loading...</div>;
@@ -39,7 +41,7 @@ const ProductsDetails = () => {
     }
     if (orderUc && selectedPrice && user && user.email) {
       const cartItems = {
-        email: user.email,
+        email: user?.email,
         title: title,
         productId: _id,
         price: selectedPrice,
@@ -53,6 +55,18 @@ const ProductsDetails = () => {
           console.log("Item added to cart");
           toast.success("Product added to cart");
           refetch();
+        }
+      });
+    } else {
+      console.log("Please login to add to cart");
+      Swal.fire({
+        title: "You must be log in",
+
+        showCancelButton: true,
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { replace: true });
         }
       });
     }
