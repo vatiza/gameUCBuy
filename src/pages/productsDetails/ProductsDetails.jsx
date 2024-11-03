@@ -8,10 +8,16 @@ import { useLoaderData } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
+import { useForm } from "react-hook-form";
 
 const ProductsDetails = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [product] = useLoaderData();
-  const { title, image, description, rating, uc, price } = product;
+  const { title, image, description, rating, uc, price, _id } = product;
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [orderUc, setOrderUc] = useState(null);
   const { user } = useAuth();
@@ -25,23 +31,27 @@ const ProductsDetails = () => {
     setSelectedPrice(ucPrice);
     setOrderUc(ucItem);
   };
-
-  const handleAddCart = () => {
+  const onSubmit = (data) => {
+    const playerId = data.playerId;
+    const playerName = data.playerName;
     if (!orderUc || selectedPrice === null) {
       toast.error("Please select UC");
     }
     if (orderUc && selectedPrice && user && user.email) {
       const cartItems = {
         email: user.email,
-        product: title,
+        title: title,
+        productId: _id,
         price: selectedPrice,
         uc: orderUc,
         image: image,
+        playerId: playerId,
+        playerName: playerName,
       };
       axiosSecure.post("/carts", cartItems).then((res) => {
-        console.log(res.data);
         if (res.data.insertedId) {
           console.log("Item added to cart");
+          toast.success("Product added to cart");
           refetch();
         }
       });
@@ -102,40 +112,51 @@ const ProductsDetails = () => {
             )}
           </div>
           <div className="mt-5">
-            <div>
-              <label>
-                Player ID <span className="text-red-500">*</span>
-              </label>
-              <Input
-                size="md"
-                type="text"
-                variant="bordered"
-                className="max-w-xs"
-                placeholder="Enter your player ID"
-                required
-              />
-            </div>
-            <div className="mt-3">
-              <label>
-                Player Name <span className="text-red-500">*</span>
-              </label>
-              <Input
-                size="md"
-                type="text"
-                variant="bordered"
-                className="max-w-xs"
-                placeholder="Enter your player Name"
-                required
-              />
-            </div>
-            <div className="flex  justify-evenly mt-5">
-              <Button onClick={() => handleAddCart()} size="lg" color="primary">
-                Add To Cart
-              </Button>
-              <Button size="lg" color="success">
-                Buy Now
-              </Button>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <label>
+                  Player ID <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  size="md"
+                  type="text"
+                  variant="bordered"
+                  className="max-w-xs"
+                  placeholder="Enter your player ID"
+                  {...register("playerId", { required: true })}
+                />
+                {errors.playerId && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="mt-3">
+                <label>
+                  Player Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  size="md"
+                  type="text"
+                  variant="bordered"
+                  className="max-w-xs"
+                  placeholder="Enter your player Name"
+                  {...register("playerName", { required: true })}
+                />
+                {errors.playerName && (
+                  <p className="text-red-500">This field is required</p>
+                )}
+              </div>
+              <div className="flex  justify-evenly mt-5">
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Add To Cart
+                </button>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                  Buy Now
+                </button>
+              </div>
+            </form>
             <Divider className="my-3" />
             <div className="flex justify-between">
               <p>Add to wishlist</p>

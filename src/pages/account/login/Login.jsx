@@ -22,8 +22,7 @@ const Login = () => {
     const email = data.email;
     const pass = data.password;
     loginUser(email, pass)
-      .then((res) => {
-        
+      .then(() => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
