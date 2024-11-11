@@ -25,7 +25,7 @@ const Nav = () => {
   const menuItems = ["Home", "Shop", "PUBG", "Free Fire ", "Contact"];
   const { user, logoutUser } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
-  const [products, loading, refetch] = useProducts({ title: searchTerm });
+  const [products, , refetch] = useProducts({ title: searchTerm });
   console.log(products);
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

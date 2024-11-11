@@ -88,7 +88,9 @@ const Cart = () => {
             </div>
           </DropdownItem>
           <DropdownItem textValue="btn">
-            <Button color="primary">Proceed To Checkout</Button>
+            <Link to="/checkout">
+              <Button color="primary"> Proceed To Checkout</Button>
+            </Link>
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

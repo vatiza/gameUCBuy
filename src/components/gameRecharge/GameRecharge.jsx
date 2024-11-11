@@ -28,13 +28,18 @@ const GameRecharge = () => {
           <ProductsCard key={product._id} product={product} />
         ))}
       </div>
-      <Button
-        className="flex mx-auto lg:hidden  my-2 "
-        color="primary"
-        variant="solid"
-      >
-        <Link to="/shop?category=game">More Products</Link>
-      </Button>
+
+      <Link to="/shop?category=game">
+        {" "}
+        <Button
+          className="flex mx-auto lg:hidden  my-2 "
+          color="primary"
+          variant="solid"
+        >
+          {" "}
+          More Products
+        </Button>
+      </Link>
     </div>
   );
 };

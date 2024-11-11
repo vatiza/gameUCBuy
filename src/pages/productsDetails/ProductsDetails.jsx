@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
@@ -22,6 +22,9 @@ const ProductsDetails = () => {
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [orderUc, setOrderUc] = useState(null);
   const { user } = useAuth();
+  const location = useLocation();
+  console.log(location);
+
   const axiosSecure = useAxiosSecure();
   const [, refetch] = useCart();
   const navigate = useNavigate();
@@ -38,8 +41,9 @@ const ProductsDetails = () => {
     const playerName = data.playerName;
     if (!orderUc || selectedPrice === null) {
       toast.error("Please select UC");
-    } else if (!user || user?.email) {
-      console.log("Please login to buy this product");
+    } else if (!user) {
+      console.log("User not logged in");
+
       Swal.fire({
         title: "You must be log in",
         showCancelButton: true,
@@ -71,12 +75,12 @@ const ProductsDetails = () => {
   };
 
   return (
-    <>
+    <div className="h-screen">
       <Helmet>
         <title>Buy {title}</title>
       </Helmet>
       <div className="grid grid-flow-row lg:grid-cols-2 gap-2">
-        <div>
+        <div className="">
           <Image src={image} />
         </div>
         <div>
@@ -183,7 +187,7 @@ const ProductsDetails = () => {
         </div>
       </div>
       <Toaster position="top-right" reverseOrder={false} />
-    </>
+    </div>
   );
 };
 

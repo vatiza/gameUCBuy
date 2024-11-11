@@ -5,6 +5,8 @@ import AllProducts from "../pages/allProducts/AllProducts";
 import ProductsDetails from "../pages/productsDetails/ProductsDetails";
 import Login from "../pages/account/login/Login";
 import SignUp from "../pages/account/signup/SignUp";
+import AdminLayouts from "../layouts/AdminLayouts";
+import CheckOutPage from "../pages/checkoutpage/CheckOutPage";
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +27,20 @@ const routes = createBrowserRouter([
         loader: ({ params }) =>
           //
           fetch(`http://localhost:5000/products/${params.id}`),
+      },
+      {
+        path: "/checkout",
+        element: <CheckOutPage />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <AdminLayouts />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <h1>Admin Dashbord</h1>,
       },
     ],
   },
