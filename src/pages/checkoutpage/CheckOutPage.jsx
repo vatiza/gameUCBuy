@@ -31,7 +31,7 @@ const CheckOutPage = () => {
       email: email,
       phone: phone,
       note: note,
-
+      totalPrice: cart.reduce((total, item) => total + item.price, 0),
       paymentGateway: paymentGateway,
       paymentNumber: paymentNumber,
       transactionId: tranasactionId,
@@ -48,10 +48,19 @@ const CheckOutPage = () => {
 
     axiosSecure.post("/orders", orderItems).then((res) => {
       if (res.data.insertedId) {
+        const cartItemsIds = cart.map((item) => item._id);
+        axiosSecure
+          .delete("/removecart", { data: { ids: cartItemsIds } })
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              console.log("Order placed successfully");
+              toast.success("Order placed successfully");
+              setIsModalOpen(true);
+              refetch();
+            }
+          });
+
         setTrackingId(res.data.insertedId);
-        console.log("Order placed successfully");
-        toast.success("Order placed successfully");
-        setIsModalOpen(true);
       } else {
         console.log("Error placing order");
         toast.error("Error placing order");
@@ -62,7 +71,6 @@ const CheckOutPage = () => {
   const handleRemoveItem = (id) => {
     console.log("Remove Item", id);
     axiosSecure.delete(`/carts/${id}`).then((res) => {
-      console.log(res);
       if (res.data.deletedCount > 0) {
         refetch();
         toast.success("Removed item from cart");
