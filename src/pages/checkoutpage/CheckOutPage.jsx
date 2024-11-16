@@ -1,20 +1,22 @@
 import { Button, Divider, Input, Textarea, Tooltip } from "@nextui-org/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { DeleteIcon } from "../../assets/svg/DeleteIcon";
+import OrderModal from "../../components/modal/OrderModal";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
 
 const CheckOutPage = () => {
-  const [cartList, refetch, loading] = useCart();
-
-  console.log("Cart List", cart);
+  const [cart, refetch, loading] = useCart();
   const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [trackingId, setTrackingId] = useState(null);
 
   const onSubmit = (data) => {
     const name = data.name;
@@ -29,13 +31,32 @@ const CheckOutPage = () => {
       email: email,
       phone: phone,
       note: note,
+
       paymentGateway: paymentGateway,
       paymentNumber: paymentNumber,
       transactionId: tranasactionId,
-      items: cartList.map((item) => ({
+      items: cart.map((item) => ({
         productId: item._id,
+        productTitle: item.title,
+        productPrice: item.price,
+        uc: item.uc,
+        playerId: item.playerId,
+        playerName: item.playerName,
+        image: item.image,
       })),
     };
+
+    axiosSecure.post("/orders", orderItems).then((res) => {
+      if (res.data.insertedId) {
+        setTrackingId(res.data.insertedId);
+        console.log("Order placed successfully");
+        toast.success("Order placed successfully");
+        setIsModalOpen(true);
+      } else {
+        console.log("Error placing order");
+        toast.error("Error placing order");
+      }
+    });
   };
 
   const handleRemoveItem = (id) => {
@@ -129,6 +150,7 @@ const CheckOutPage = () => {
                 })}
                 className="pt-5 lg:w-1/2"
                 type="text"
+                style={{ textTransform: "uppercase" }}
                 label="Transaction ID *"
                 placeholder="Transaction ID"
                 labelPlacement="outside"
@@ -161,7 +183,7 @@ const CheckOutPage = () => {
             </div>
           ) : (
             <>
-              {cartList.map((item) => (
+              {cart.map((item) => (
                 <div key={item._id}>
                   <div className="flex items-center my-3 gap-3">
                     <Tooltip content="Remove">
@@ -188,14 +210,19 @@ const CheckOutPage = () => {
               <Divider className="  my-2" />
               <div className="flex justify-between font-semibold text-blue-600">
                 <h1 className="text-xl ">Total</h1>
-                <p>{cartList.reduce((acc, curr) => acc + curr.price, 0)}৳</p>
+                <p>{cart.reduce((acc, curr) => acc + curr.price, 0)}৳</p>
               </div>
               <Divider className="my-2" />
             </>
           )}
         </div>
       </div>
-      <div className=""></div>
+
+      <OrderModal
+        trackingId={trackingId}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

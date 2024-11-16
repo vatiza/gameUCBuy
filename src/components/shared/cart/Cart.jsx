@@ -50,7 +50,7 @@ const Cart = () => {
             </p>
             <Divider />
           </DropdownItem>
-          {cart.length === 0 && (
+          {cart?.length === 0 && (
             <DropdownItem
               isReadOnly
               textValue="empty"
@@ -59,7 +59,7 @@ const Cart = () => {
               Your cart is empty
             </DropdownItem>
           )}
-          {cart.map((item) => (
+          {cart?.map((item) => (
             <DropdownItem
               isReadOnly
               textValue="items"

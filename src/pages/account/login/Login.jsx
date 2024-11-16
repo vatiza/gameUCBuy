@@ -19,7 +19,6 @@ const Login = () => {
   const location = useLocation();
 
   const from = location.state?.from || "/";
-  console.log(from);
 
   const onSubmit = (data) => {
     const email = data.email;
