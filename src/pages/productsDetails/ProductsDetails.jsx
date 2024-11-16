@@ -22,8 +22,6 @@ const ProductsDetails = () => {
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [orderUc, setOrderUc] = useState(null);
   const { user } = useAuth();
-  const location = useLocation();
-  console.log(location);
 
   const axiosSecure = useAxiosSecure();
   const [, refetch] = useCart();
@@ -50,7 +48,11 @@ const ProductsDetails = () => {
         confirmButtonText: "Login",
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate("/login", { replace: true });
+          navigate("/login", {
+            state: {
+              from: `/shop/${_id}`,
+            },
+          });
         }
       });
     } else {
@@ -75,7 +77,7 @@ const ProductsDetails = () => {
   };
 
   return (
-    <div className="h-screen">
+    <div className="">
       <Helmet>
         <title>Buy {title}</title>
       </Helmet>

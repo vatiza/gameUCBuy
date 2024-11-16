@@ -26,7 +26,7 @@ const Nav = () => {
   const { user, logoutUser } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [products, , refetch] = useProducts({ title: searchTerm });
-  console.log(products);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
     refetch();
@@ -99,7 +99,9 @@ const Nav = () => {
                       <p className="font-semibold">Signed in as</p>
                       <p className="font-semibold">{user.email}</p>
                     </DropdownItem>
-                    <DropdownItem key="settings">My Settings</DropdownItem>
+                    <DropdownItem key="settings">
+                      <Link to="/dashboard">My Order</Link>
+                    </DropdownItem>
                     <DropdownItem key="team_settings">
                       Team Settings
                     </DropdownItem>

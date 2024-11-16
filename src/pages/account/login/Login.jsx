@@ -17,7 +17,9 @@ const Login = () => {
   const { loginUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+
+  const from = location.state?.from || "/";
+  console.log(from);
 
   const onSubmit = (data) => {
     const email = data.email;

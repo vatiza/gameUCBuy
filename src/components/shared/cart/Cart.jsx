@@ -20,7 +20,6 @@ const Cart = () => {
   const [cart, refetch] = useCart();
   const subTotalPrice = cart.reduce((total, item) => total + item.price, 0);
   const handleRemoveItem = (id) => {
-    console.log("Remove Item", id);
     axiosSecure.delete(`/carts/${id}`).then((res) => {
       if (res.data.deletedCount > 0) {
         refetch();
@@ -90,10 +89,10 @@ const Cart = () => {
           ))}
 
           <DropdownItem isReadOnly textValue="sub" className="mt-4">
-            <div className="flex text-xl   items-center justify-between mt-2 font-semibold">
+            <div className="flex text-xl items-center justify-between mt-2 font-semibold">
               <h1>Subtotal:</h1>
               <h1>
-                {subTotalPrice} <span>TK</span>{" "}
+                {subTotalPrice} <span>TK</span>
               </h1>
             </div>
           </DropdownItem>
