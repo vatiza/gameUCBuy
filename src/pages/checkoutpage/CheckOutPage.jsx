@@ -31,6 +31,9 @@ const CheckOutPage = () => {
       email: email,
       phone: phone,
       note: note,
+      date: new Date(),
+      status: "pending",
+
       totalPrice: cart.reduce((total, item) => total + item.price, 0),
       paymentGateway: paymentGateway,
       paymentNumber: paymentNumber,
@@ -46,26 +49,32 @@ const CheckOutPage = () => {
       })),
     };
 
-    axiosSecure.post("/orders", orderItems).then((res) => {
-      if (res.data.insertedId) {
-        const cartItemsIds = cart.map((item) => item._id);
-        axiosSecure
-          .delete("/removecart", { data: { ids: cartItemsIds } })
-          .then((res) => {
-            if (res.data.deletedCount > 0) {
-              console.log("Order placed successfully");
-              toast.success("Order placed successfully");
-              setIsModalOpen(true);
-              refetch();
-            }
-          });
+    axiosSecure
+      .post("/orders", orderItems)
+      .then((res) => {
+        if (res.data.insertedId) {
+          const cartItemsIds = cart.map((item) => item._id);
+          axiosSecure
+            .delete("/removecart", { data: { ids: cartItemsIds } })
+            .then((res) => {
+              if (res.data.deletedCount > 0) {
+                console.log("Order placed successfully");
+                toast.success("Order placed successfully");
+                setIsModalOpen(true);
+                refetch();
+              }
+            });
 
-        setTrackingId(res.data.insertedId);
-      } else {
-        console.log("Error placing order");
-        toast.error("Error placing order");
-      }
-    });
+          setTrackingId(res.data.insertedId);
+        } else {
+          console.log("Error placing order");
+          toast.error("Error placing order");
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+        toast.error(err.response.data.error);
+      });
   };
 
   const handleRemoveItem = (id) => {

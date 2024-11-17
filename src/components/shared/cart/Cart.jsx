@@ -96,11 +96,13 @@ const Cart = () => {
               </h1>
             </div>
           </DropdownItem>
-          <DropdownItem isReadOnly textValue="btn">
-            <Link to="/checkout">
-              <Button color="primary"> Proceed To Checkout</Button>
-            </Link>
-          </DropdownItem>
+          {cart.length > 0 && (
+            <DropdownItem isReadOnly textValue="btn">
+              <Link to="/checkout">
+                <Button color="primary"> Proceed To Checkout</Button>
+              </Link>
+            </DropdownItem>
+          )}
         </DropdownMenu>
       </Dropdown>
       <Toaster position="top-right" reverseOrder={false} />

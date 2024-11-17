@@ -5,8 +5,10 @@ import AllProducts from "../pages/allProducts/AllProducts";
 import ProductsDetails from "../pages/productsDetails/ProductsDetails";
 import Login from "../pages/account/login/Login";
 import SignUp from "../pages/account/signup/SignUp";
-import AdminLayouts from "../layouts/AdminLayouts";
+
 import CheckOutPage from "../pages/checkoutpage/CheckOutPage";
+import MyOrders from "../pages/myorders/MyOrders";
+import DashboardLayouts from "../layouts/DashboardLayouts";
 
 const routes = createBrowserRouter([
   {
@@ -36,14 +38,15 @@ const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <AdminLayouts />,
+    element: <DashboardLayouts />,
     children: [
       {
-        path: "/dashboard",
-        element: <h1>Admin Dashbord</h1>,
+        path: "myorders",
+        element: <MyOrders />,
       },
     ],
   },
+
   {
     path: "/login",
     element: <Login />,

@@ -22,8 +22,29 @@ import useProducts from "../../../hooks/useProducts";
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const menuItems = ["Home", "Shop", "PUBG", "Free Fire ", "Contact"];
-  const { user, logoutUser } = useAuth();
+  const menuItems = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "Shop",
+      href: "/shop",
+    },
+    {
+      label: "PUBG",
+      href: "/pubg",
+    },
+    {
+      label: "Free Fire",
+      href: "/freefire",
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+    },
+  ];
+  const { user, logoutUser, loading } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [products, , refetch] = useProducts({ title: searchTerm });
 
@@ -59,8 +80,10 @@ const Nav = () => {
           <div>
             <NavbarContent className="hidden sm:flex gap-4  ">
               {menuItems.map((item, index) => (
-                <NavbarItem key={`${item}-${index}`}>
-                  <Link className="hover:font-bold">{item}</Link>
+                <NavbarItem key={`${item.label}-${index}`}>
+                  <Link to={item.href} className="hover:font-bold">
+                    {item.label}
+                  </Link>
                 </NavbarItem>
               ))}
             </NavbarContent>
@@ -99,16 +122,8 @@ const Nav = () => {
                       <p className="font-semibold">Signed in as</p>
                       <p className="font-semibold">{user.email}</p>
                     </DropdownItem>
-                    <DropdownItem key="settings">
-                      <Link to="/dashboard">My Order</Link>
-                    </DropdownItem>
-                    <DropdownItem key="team_settings">
-                      Team Settings
-                    </DropdownItem>
-                    <DropdownItem key="analytics">Analytics</DropdownItem>
-                    <DropdownItem key="system">System</DropdownItem>
-                    <DropdownItem key="configurations">
-                      Configurations
+                    <DropdownItem textValue="dashboard" key="settings">
+                      <Link to="/dashboard/myorders">My Order</Link>
                     </DropdownItem>
                     <DropdownItem key="help_and_feedback">
                       Help & Feedback

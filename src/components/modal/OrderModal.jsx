@@ -1,5 +1,6 @@
 import {
   Button,
+  Code,
   Modal,
   ModalBody,
   ModalContent,
@@ -18,8 +19,10 @@ const OrderModal = ({ trackingId, isOpen, onClose }) => {
             </ModalHeader>
             <ModalBody>
               <p>
-                Thank you for your order. Your order number is {trackingId}.
-                Please check your email for the invoice.
+                Your order number is <Code color="success">{trackingId}</Code>.
+                Please allow <span className="font-bold">15 to 30</span> minutes
+                for us to complete your order. Thank you for your patience!
+               
               </p>
             </ModalBody>
             <ModalFooter>
