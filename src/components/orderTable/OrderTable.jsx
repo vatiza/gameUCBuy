@@ -33,7 +33,7 @@ const OrderTable = ({ orders }) => {
         <TableColumn>Status</TableColumn>
       </TableHeader>
       <TableBody>
-        {orders.map((order, index) =>
+        {orders.map((order) =>
           order.items.map((item) => (
             <TableRow key={`${order._id}`}>
               <TableCell>

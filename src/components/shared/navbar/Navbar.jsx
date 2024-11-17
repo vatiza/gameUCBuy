@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Chip,
   Divider,
   Dropdown,
   DropdownItem,
@@ -44,8 +45,9 @@ const Nav = () => {
       href: "/contact",
     },
   ];
-  const { user, logoutUser, loading } = useAuth();
+  const { user, logoutUser } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
+  const [showResults, setShowResults] = useState(true);
   const [products, , refetch] = useProducts({ title: searchTerm });
 
   const handleSearch = (e) => {
@@ -68,27 +70,59 @@ const Nav = () => {
             <h1>Shop BD LOGO</h1>
           </div>
         </NavbarContent>
-        <Input
-          className=" w-full lg:w-3/6"
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
+
+        <div className="relative w-full lg:w-3/6">
+          <Input
+            className="w-full"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearch}
+            onFocus={() => setShowResults(true)}
+            onBlur={() => setTimeout(() => setShowResults(false), 150)}
+          />
+          {searchTerm && showResults && (
+            <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1">
+              {products.length > 0 ? (
+                <ul>
+                  {products.map((product) => (
+                    <li
+                      key={product._id}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onMouseDown={(e) => e.preventDefault()} // Prevent blur when clicking on a product
+                    >
+                      <Link to={`/shop/${product._id}`}>
+                        <Chip
+                          variant="flat"
+                          avatar={
+                            <Avatar name={product.title} src={product.image} />
+                          }
+                        >
+                          {product.title}
+                        </Chip>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="px-4 py-2 text-gray-500">No products found</div>
+              )}
+            </div>
+          )}
+        </div>
 
         <div>
-          <div>
-            <NavbarContent className="hidden sm:flex gap-4  ">
-              {menuItems.map((item, index) => (
-                <NavbarItem key={`${item.label}-${index}`}>
-                  <Link to={item.href} className="hover:font-bold">
-                    {item.label}
-                  </Link>
-                </NavbarItem>
-              ))}
-            </NavbarContent>
-          </div>
+          <NavbarContent className="hidden sm:flex gap-4  ">
+            {menuItems.map((item, index) => (
+              <NavbarItem key={`${item.label}-${index}`}>
+                <Link to={item.href} className="hover:font-bold">
+                  {item.label}
+                </Link>
+              </NavbarItem>
+            ))}
+          </NavbarContent>
         </div>
+
         <div className="flex items-center  gap-3">
           {user ? (
             <>

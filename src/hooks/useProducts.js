@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "./useAxiosPublic";
 
 const useProducts = (searchParams = {}) => {
+
   const axiosPublic = useAxiosPublic();
   const {
     refetch,
