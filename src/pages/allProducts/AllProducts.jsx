@@ -11,10 +11,8 @@ const AllProducts = () => {
   return (
     <div>
       <h1 className="text-2xl font-semibold">All Products</h1>
-
       <Divider />
-
-      <div className="mt-5">
+      <div className="mt-5 lg:mx-5">
         {loading ? (
           <>loading...</>
         ) : (

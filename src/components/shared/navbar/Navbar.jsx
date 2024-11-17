@@ -34,15 +34,15 @@ const Nav = () => {
     },
     {
       label: "PUBG",
-      href: "/pubg",
+      href: "/",
     },
     {
       label: "Free Fire",
-      href: "/freefire",
+      href: "/",
     },
     {
       label: "Contact",
-      href: "/contact",
+      href: "/",
     },
   ];
   const { user, logoutUser } = useAuth();
@@ -185,9 +185,9 @@ const Nav = () => {
         </div>
 
         <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link>{item}</Link>
+          {menuItems.map((item) => (
+            <NavbarMenuItem key={`${item.label}`}>
+              <Link to={item.href}>{item.label}</Link>
             </NavbarMenuItem>
           ))}
         </NavbarMenu>

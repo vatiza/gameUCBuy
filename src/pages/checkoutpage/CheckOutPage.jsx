@@ -6,10 +6,13 @@ import { DeleteIcon } from "../../assets/svg/DeleteIcon";
 import OrderModal from "../../components/modal/OrderModal";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
+import useAuth from "../../hooks/useAuth";
 
 const CheckOutPage = () => {
   const [cart, refetch, loading] = useCart();
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -21,14 +24,14 @@ const CheckOutPage = () => {
   const onSubmit = (data) => {
     const name = data.name;
     const phone = data.phone;
-    const email = data.email;
+
     const note = data?.note;
     const paymentGateway = data.paymentgateway;
     const paymentNumber = data.paymentnumber;
     const tranasactionId = data.transactionid;
     const orderItems = {
       name: name,
-      email: email,
+      email: user?.email,
       phone: phone,
       note: note,
       date: new Date(),
@@ -115,17 +118,6 @@ const CheckOutPage = () => {
                 })}
                 placeholder="Phone Number"
                 labelPlacement="outside"
-              />
-
-              <Input
-                className="pt-5"
-                type="email"
-                label="Emali Address *"
-                placeholder="Email"
-                labelPlacement="outside"
-                {...register("email", {
-                  required: true,
-                })}
               />
               <Textarea
                 {...register("note")}
