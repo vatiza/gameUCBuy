@@ -1,9 +1,9 @@
 import axios from "axios";
 const axiosPublic = axios.create({
   // TODO: Replace with your own API endpoint
-  // https://localhost:500 or your actual API endpoint
-  // https://server-uc-shop.vercel.app/
-  baseURL: "https://server-uc-shop.vercel.app",
+  // http://localhost:5000 or your actual API endpoint
+  // http://localhost:5000/
+  baseURL: "http://localhost:5000",
 });
 const useAxiosPublic = () => {
   return axiosPublic;

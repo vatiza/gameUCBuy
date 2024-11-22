@@ -20,9 +20,16 @@ import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Cart from "../cart/cart";
 import useProducts from "../../../hooks/useProducts";
+import useAdmin from "../../../hooks/useAdmin";
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isAdmin, adminLoading] = useAdmin();
+  const { user, logoutUser } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showResults, setShowResults] = useState(true);
+  const [products, , refetch] = useProducts({ title: searchTerm });
+ 
   const menuItems = [
     {
       label: "Home",
@@ -45,10 +52,6 @@ const Nav = () => {
       href: "/",
     },
   ];
-  const { user, logoutUser } = useAuth();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showResults, setShowResults] = useState(true);
-  const [products, , refetch] = useProducts({ title: searchTerm });
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -157,7 +160,11 @@ const Nav = () => {
                       <p className="font-semibold">{user.email}</p>
                     </DropdownItem>
                     <DropdownItem textValue="dashboard" key="settings">
-                      <Link to="/dashboard/myorders">My Order</Link>
+                      {isAdmin ? (
+                        <Link to="/dashboard">Dashboard</Link>
+                      ) : (
+                        <Link to="/dashboard/myorders">My Order</Link>
+                      )}
                     </DropdownItem>
                     <DropdownItem key="help_and_feedback">
                       Help & Feedback

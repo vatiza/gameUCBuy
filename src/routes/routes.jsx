@@ -9,6 +9,8 @@ import SignUp from "../pages/account/signup/SignUp";
 import CheckOutPage from "../pages/checkoutpage/CheckOutPage";
 import MyOrders from "../pages/myorders/MyOrders";
 import DashboardLayouts from "../layouts/DashboardLayouts";
+import AdminRoutes from "./adminRoutes";
+import PrivateRoutes from "./privateRoutes";
 
 const routes = createBrowserRouter([
   {
@@ -28,7 +30,7 @@ const routes = createBrowserRouter([
         element: <ProductsDetails />,
         loader: ({ params }) =>
           //
-          fetch(`https://server-uc-shop.vercel.app/products/${params.id}`),
+          fetch(`http://localhost:5000/products/${params.id}`),
       },
       {
         path: "/checkout",
@@ -41,8 +43,20 @@ const routes = createBrowserRouter([
     element: <DashboardLayouts />,
     children: [
       {
+        path: "/dashboard/",
+        element: (
+          <AdminRoutes>
+            <h1>Dashborad</h1>
+          </AdminRoutes>
+        ),
+      },
+      {
         path: "myorders",
-        element: <MyOrders />,
+        element: (
+          <PrivateRoutes>
+            <MyOrders />
+          </PrivateRoutes>
+        ),
       },
     ],
   },

@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import moment from "moment";
 const OrderTable = ({ orders }) => {
+  if (orders.length === 0) return <p>No orders found.</p>;
   const statusColorMap = {
     completed: "success",
     cancelled: "danger",

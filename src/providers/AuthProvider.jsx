@@ -33,14 +33,16 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-    
       setUser(user);
 
       if (user) {
-        const userInfo = { email: user.email };
+        const userInfo = { email: user.email, date: new Date() };
         axiosPublic.post("/jwt", userInfo).then((res) => {
           if (res.data.token) {
             localStorage.setItem("jwt", res.data.token);
+            axiosPublic.post("/users", userInfo).then((res) => {
+              console.log("User created", res.data);
+            });
           }
         });
 

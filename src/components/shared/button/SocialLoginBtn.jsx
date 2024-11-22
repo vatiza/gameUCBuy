@@ -10,6 +10,7 @@ const SocialLoginBtn = () => {
   const { googleLogin } = useAuth();
   const handleGoogleLogin = () => {
     googleLogin().then(() => {
+      
       navigate(from, { replace: true });
     });
   };
