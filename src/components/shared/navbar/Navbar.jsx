@@ -21,15 +21,16 @@ import useAuth from "../../../hooks/useAuth";
 import Cart from "../cart/cart";
 import useProducts from "../../../hooks/useProducts";
 import useAdmin from "../../../hooks/useAdmin";
+import Notify from "../notify/Notify";
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [isAdmin, adminLoading] = useAdmin();
+  const [isAdmin] = useAdmin();
   const { user, logoutUser } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(true);
   const [products, , refetch] = useProducts({ title: searchTerm });
- 
+
   const menuItems = [
     {
       label: "Home",
@@ -127,13 +128,8 @@ const Nav = () => {
         </div>
 
         <div className="flex items-center  gap-3">
-          {user ? (
-            <>
-              <Cart />
-            </>
-          ) : (
-            <></>
-          )}
+          {isAdmin ? <Notify /> : user ? <Cart></Cart> : <></>}
+
           <div>
             {user ? (
               <>
@@ -144,7 +140,7 @@ const Nav = () => {
                       isBordered
                       as="button"
                       className="transition-transform"
-                      color="secondary"
+                      color={isAdmin ? "danger" : "primary"}
                       name="Jason Hughes"
                       size="sm"
                       src="https://i.pravatar.cc/150?u=a042581f4e29026704d"

@@ -7,11 +7,11 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { app } from "../config/firebase/firebaseConfig";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import { AuthContext } from "./AuthContext";
 
-export const AuthContext = createContext(null);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
@@ -66,6 +66,7 @@ const AuthProvider = ({ children }) => {
     googleLogin,
   };
   return (
+
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
 };

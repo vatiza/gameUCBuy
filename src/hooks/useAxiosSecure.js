@@ -23,7 +23,6 @@ const useAxiosSecure = () => {
       },
       (err) => Promise.reject(err)
     );
-
     const responseInterceptor = axiosSecure.interceptors.response.use(
       (response) => response,
       async (error) => {
@@ -35,8 +34,6 @@ const useAxiosSecure = () => {
         return Promise.reject(error);
       }
     );
-
-    // Cleanup interceptors when the component using the hook is unmounted
     return () => {
       axiosSecure.interceptors.request.eject(requestInterceptor);
       axiosSecure.interceptors.response.eject(responseInterceptor);

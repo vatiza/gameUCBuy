@@ -11,6 +11,7 @@ import MyOrders from "../pages/myorders/MyOrders";
 import DashboardLayouts from "../layouts/DashboardLayouts";
 import AdminRoutes from "./adminRoutes";
 import PrivateRoutes from "./privateRoutes";
+import DashHome from "../components/dashboard/home/DashHome";
 
 const routes = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ const routes = createBrowserRouter([
         path: "/dashboard/",
         element: (
           <AdminRoutes>
-            <h1>Dashborad</h1>
+            <DashHome />
           </AdminRoutes>
         ),
       },
