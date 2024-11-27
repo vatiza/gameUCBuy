@@ -159,7 +159,7 @@ const Nav = () => {
                       {isAdmin ? (
                         <Link to="/dashboard">Dashboard</Link>
                       ) : (
-                        <Link to="/dashboard/myorders">My Order</Link>
+                        <Link to="/myorders">My Order</Link>
                       )}
                     </DropdownItem>
                     <DropdownItem key="help_and_feedback">

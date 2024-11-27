@@ -1,8 +1,8 @@
 import { Card, CardBody } from "@nextui-org/react";
-import useTotalUser from "../../../hooks/useTotalUser";
-import { FaCartArrowDown, FaPerson, FaRegClock } from "react-icons/fa6";
-import useGetAllCarts from "../../../hooks/useGetAllCarts";
+import { FaPerson, FaRegClock } from "react-icons/fa6";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
+import useGetAllCarts from "../../../hooks/useGetAllCarts";
+import useTotalUser from "../../../hooks/useTotalUser";
 
 const DashCard = () => {
   const [totalUsers, , loading] = useTotalUser();

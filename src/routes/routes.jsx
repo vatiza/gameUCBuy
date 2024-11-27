@@ -12,6 +12,7 @@ import DashboardLayouts from "../layouts/DashboardLayouts";
 import AdminRoutes from "./adminRoutes";
 import PrivateRoutes from "./privateRoutes";
 import DashHome from "../components/dashboard/home/DashHome";
+import Analytics from "../components/dashboard/analytics/Analytics";
 
 const routes = createBrowserRouter([
   {
@@ -37,20 +38,6 @@ const routes = createBrowserRouter([
         path: "/checkout",
         element: <CheckOutPage />,
       },
-    ],
-  },
-  {
-    path: "/dashboard",
-    element: <DashboardLayouts />,
-    children: [
-      {
-        path: "/dashboard/",
-        element: (
-          <AdminRoutes>
-            <DashHome />
-          </AdminRoutes>
-        ),
-      },
       {
         path: "myorders",
         element: (
@@ -58,6 +45,25 @@ const routes = createBrowserRouter([
             <MyOrders />
           </PrivateRoutes>
         ),
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <AdminRoutes>
+        {" "}
+        <DashboardLayouts />
+      </AdminRoutes>
+    ),
+    children: [
+      {
+        path: "/dashboard/",
+        element: <DashHome />,
+      },
+      {
+        path: "/dashboard/analytics",
+        element: <Analytics />,
       },
     ],
   },

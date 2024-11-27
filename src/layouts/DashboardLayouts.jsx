@@ -16,15 +16,15 @@ const DashboardLayouts = () => {
         </h1>
         <p className="text-blue-700 text-xl ">{pathname}</p>
       </div>
-      <div className="px-2 lg:px-20 grid grid-cols-6 gap-2">
-        <div className="col-span-1 mt-5  grid gap-3">
+      <div className="px-2 lg:px-20 grid grid-cols-6 ">
+        <div className="col-span-1 mt-5 ">
           <Link to="/dashboard">
             <Button color={pathname === "/dashboard" ? "primary" : ""}>
               <MdHome />
               Home
             </Button>
           </Link>
-          <Link to="/analytics">
+          <Link to="/dashboard/analytics">
             <Button color={pathname === "/analytics" ? "primary" : ""}>
               <IoAnalytics />
               Analytics
