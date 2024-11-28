@@ -8,6 +8,7 @@ const DashHome = () => {
       <DashCard />
       <Analytics />
       <DashTable />
+      
     </div>
   );
 };

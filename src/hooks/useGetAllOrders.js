@@ -13,6 +13,7 @@ const useGetAllOrders = () => {
       const res = await axiosSecure.get("/allorders");
       return res.data;
     },
+    refetchInterval: 30000,
   });
   return [allOrders, refetch, loading];
 };

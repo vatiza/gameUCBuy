@@ -59,11 +59,20 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "/dashboard/",
-        element: <DashHome />,
+        element: (
+          <AdminRoutes>
+            <DashHome />
+          </AdminRoutes>
+        ),
       },
       {
         path: "/dashboard/analytics",
-        element: <Analytics />,
+        element: (
+          <AdminRoutes>
+            {" "}
+            <Analytics />
+          </AdminRoutes>
+        ),
       },
     ],
   },
