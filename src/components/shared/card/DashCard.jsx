@@ -16,7 +16,6 @@ const DashCard = () => {
   if (loading) {
     return <p>Loading...</p>;
   }
-
   return (
     <div className="grid grid-cols-3 gap-3">
       <Card className="bg-blue-200" shadow="lg">

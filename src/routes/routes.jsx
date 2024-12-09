@@ -13,6 +13,7 @@ import AdminRoutes from "./adminRoutes";
 import PrivateRoutes from "./privateRoutes";
 import DashHome from "../components/dashboard/home/DashHome";
 import Analytics from "../components/dashboard/analytics/Analytics";
+import OrderDetails from "../pages/admin/orderDetails/orderDetails";
 
 const routes = createBrowserRouter([
   {
@@ -73,6 +74,12 @@ const routes = createBrowserRouter([
             <Analytics />
           </AdminRoutes>
         ),
+      },
+      {
+        path: "/dashboard/order-details/:id",
+        element: <OrderDetails />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/orderdetails/${params.id}`),
       },
     ],
   },

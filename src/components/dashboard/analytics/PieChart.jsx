@@ -7,7 +7,7 @@ import useGetAllOrders from "../../../hooks/useGetAllOrders";
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const PieChartShow = () => {
-  const [orders] = useGetAllOrders();
+  const [orders] = useGetAllOrders("all");
 
   // Calculate total amount per payment gateway
   const paymentGatewayTotals = orders.reduce((acc, order) => {

@@ -1,11 +1,16 @@
 import {
+  Chip,
+  Code,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
+  User,
 } from "@nextui-org/react";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
 const ViewOrderTable = ({ orders }) => {
   console.log(orders);
@@ -33,39 +38,49 @@ const ViewOrderTable = ({ orders }) => {
           <TableColumn>Status</TableColumn>
         </TableHeader>
         <TableBody>
-          <TableRow key="1">
-            <TableCell>
-              <h1>hello</h1>
-            </TableCell>
-            <TableCell>৳</TableCell>
-            <TableCell>smafs</TableCell>
-            <TableCell>fsdafk</TableCell>
-            <TableCell>dsaf</TableCell>
-            <TableCell>sadfs</TableCell>
-            <TableCell> dsfas</TableCell>
-          </TableRow>
-          <TableRow key="2">
-            <TableCell>
-              <h1>hello</h1>
-            </TableCell>
-            <TableCell>৳</TableCell>
-            <TableCell>smafs</TableCell>
-            <TableCell>fsdafk</TableCell>
-            <TableCell>dsaf</TableCell>
-            <TableCell>sadfs</TableCell>
-            <TableCell> dsfas</TableCell>
-          </TableRow>
-          <TableRow key="3">
-            <TableCell>
-              <h1>hello</h1>
-            </TableCell>
-            <TableCell>৳</TableCell>
-            <TableCell>smafs</TableCell>
-            <TableCell>fsdafk</TableCell>
-            <TableCell>dsaf</TableCell>
-            <TableCell>sadfs</TableCell>
-            <TableCell> dsfas</TableCell>
-          </TableRow>
+          {orders.map((order) =>
+            order.items.map((item) => (
+              <TableRow key={`${order._id}`}>
+                <TableCell>
+                  <User
+                    avatarProps={{ radius: "lg", src: item.image }}
+                    name={item.productTitle}
+                    description={item.uc}
+                  ></User>
+                </TableCell>
+                <TableCell>{item.productPrice}৳</TableCell>
+                <TableCell>
+                  <Link to={`/dashboard/order-details/${order._id}`}>
+                    <Code size="sm" color="success">
+                      {order._id}
+                    </Code>
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <Chip
+                    color={paymentGatewayColorMap[order.paymentGateway]}
+                    size="sm"
+                    variant="flat"
+                  >
+                    {order.paymentGateway}
+                  </Chip>
+                </TableCell>
+                <TableCell>{order.paymentNumber}</TableCell>
+                <TableCell>{moment(order?.date).format("LL")}</TableCell>
+                <TableCell>
+                  {" "}
+                  <Chip
+                    className="capitalize"
+                    color={statusColorMap[order.status]}
+                    size="sm"
+                    variant="flat"
+                  >
+                    {order.status}
+                  </Chip>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>

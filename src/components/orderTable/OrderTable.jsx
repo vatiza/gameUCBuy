@@ -36,7 +36,7 @@ const OrderTable = ({ orders }) => {
       <TableBody>
         {orders.map((order) =>
           order.items.map((item) => (
-            <TableRow key={`${order._id}`}>
+            <TableRow key={`${order._id}-${item._id}`}>
               <TableCell>
                 <User
                   avatarProps={{ radius: "lg", src: item.image }}
@@ -62,7 +62,6 @@ const OrderTable = ({ orders }) => {
               <TableCell>{order.paymentNumber}</TableCell>
               <TableCell>{moment(order?.date).format("LL")}</TableCell>
               <TableCell>
-                {" "}
                 <Chip
                   className="capitalize"
                   color={statusColorMap[order.status]}

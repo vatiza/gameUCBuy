@@ -25,7 +25,7 @@ ChartJS.register(
 const Analytics = () => {
   const pathName = window.location.pathname;
   console.log(pathName);
-  const [orders] = useGetAllOrders();
+  const [orders] = useGetAllOrders("all");
 
   const bkashData = orders.filter((data) => data.paymentGateway === "Bkash");
   const nagadData = orders.filter((data) => data.paymentGateway === "Nagad");
