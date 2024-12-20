@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import DashTable from "../../../components/dashboard/table/DashTable";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useGetAllOrders from "../../../hooks/useGetAllOrders";
 
 const OrderDetails = () => {
+  const [, refetch] = useGetAllOrders();
   const axiosSecure = useAxiosSecure();
   const [products] = useLoaderData();
   const [submitting, setSubmitting] = useState([]);
@@ -17,7 +19,6 @@ const OrderDetails = () => {
     const res = await axiosSecure.patch(`/orderdetails/${products._id}`, {
       status: `${submitting}`,
     });
-    console.log(res);
     if (res.status === 200) {
       alert("Order Completed Successfully");
       refetch();

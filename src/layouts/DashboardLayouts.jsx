@@ -25,7 +25,7 @@ const DashboardLayouts = () => {
             </Button>
           </Link>
           <Link to="/dashboard/analytics">
-            <Button color={pathname === "/analytics" ? "primary" : ""}>
+            <Button color={pathname === "/dashboard/analytics" ? "primary" : ""}>
               <IoAnalytics />
               Analytics
             </Button>
