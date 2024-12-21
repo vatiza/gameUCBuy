@@ -105,7 +105,7 @@ const Login = () => {
                     </div>
                     <input
                       type="submit"
-                      className="mt-5 btn tracking-wide font-semibold bg-blue-600 text-white w-full py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                      className="mt-5 btn tracking-wide cursor-pointer font-semibold bg-blue-600 text-white w-full py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                       value="Login"
                     />
                   </div>

@@ -7,12 +7,12 @@ import useTotalUser from "../../../hooks/useTotalUser";
 const DashCard = () => {
   const [totalUsers, , loading] = useTotalUser();
 
-  const [allOrders] = useGetAllOrders();
+  const [allOrders] = useGetAllOrders("all");
+
   const completeOrders = allOrders.filter(
     (order) => order.status === "completed"
   );
   const orderPending = allOrders.filter((order) => order.status === "pending");
-  console.log(orderPending);
   if (loading) {
     return <p>Loading...</p>;
   }

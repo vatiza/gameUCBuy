@@ -50,7 +50,7 @@ const ViewOrderTable = ({ orders }) => {
                 </TableCell>
                 <TableCell>{item.productPrice}৳</TableCell>
                 <TableCell>
-                  <Link to={`/dashboard/order-details/${order._id}`}>
+                  <Link to={`/dashboard/${order._id}`}>
                     <Code size="sm" color="success">
                       {order._id}
                     </Code>

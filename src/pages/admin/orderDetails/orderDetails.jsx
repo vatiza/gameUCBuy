@@ -1,30 +1,46 @@
-import { Button, Chip, Divider, Image } from "@nextui-org/react";
+import {
+  Button,
+  Chip,
+  Code,
+  Divider,
+  Image,
+  Textarea,
+} from "@nextui-org/react";
 import moment from "moment";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import DashTable from "../../../components/dashboard/table/DashTable";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useGetAllOrders from "../../../hooks/useGetAllOrders";
+import toast, { Toaster } from "react-hot-toast";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 
 const OrderDetails = () => {
   const [, refetch] = useGetAllOrders();
   const axiosSecure = useAxiosSecure();
+  const [comment, setComment] = useState("");
   const [products] = useLoaderData();
-  const [submitting, setSubmitting] = useState([]);
-  console.log(submitting);
+  console.log(products);
+  const [submitting, setSubmitting] = useState("completed");
+
   const handleSubmitting = (event) => {
     setSubmitting(event.target.value);
   };
   const handleCompleteOrder = async () => {
     const res = await axiosSecure.patch(`/orderdetails/${products._id}`, {
-      status: `${submitting}`,
+      status: submitting,
+      comment: comment,
     });
-    if (res.status === 200) {
-      alert("Order Completed Successfully");
+    console.log(res);
+    if (res.data.modifiedCount > 0) {
+      toast.success(`Order ${submitting} Successfully`);
       refetch();
     }
   };
-
+  const paymentGatewayColorMap = {
+    Bkash: "danger",
+    Nagad: "warning",
+    Rocket: "primary",
+  };
   const statusColorMap = {
     completed: "success",
     cancelled: "danger",
@@ -39,28 +55,64 @@ const OrderDetails = () => {
           <h1>Email:{products.email}</h1>
           <h1>Phone: {products.phone}</h1>
           <h1>Date: {moment(products.date).format("LL")}</h1>
+          {products?.comment && (
+            <Code className="mt-1" color="danger">
+              Comment: {products?.comment}
+            </Code>
+          )}
+          <br />
           <Chip
-            className="capitalize"
+            className="capitalize my-1"
             color={statusColorMap[products.status]}
-            size="sm"
             variant="shadow"
+            radius="sm"
           >
-            Status: {products.status}
+            Status: {products?.status}
           </Chip>
-          <h1>Note: {products?.note}</h1>
         </div>
+        {/* payment details */}
         <div>
-          <h1>Total Price:{products.totalPrice}</h1>
-          <h1>Payment Gateway:{products.paymentGateway}</h1>
-          <h1>Payment Number:{products.paymentNumber}</h1>
-          <h1>Transaction Id:{products.transactionId}</h1>
+          <Code
+            className="p-3"
+            color={paymentGatewayColorMap[products.paymentGateway]}
+          >
+            <h1 className="text-2xl flex items-center gap-3">
+              Amount:{products.totalPrice}
+              <FaBangladeshiTakaSign size={20} />
+            </h1>
+            <Chip
+              radius="sm"
+              variant="flat"
+              color={paymentGatewayColorMap[products.paymentGateway]}
+            >
+              Payment Gateway:{products.paymentGateway}
+            </Chip>
+            <br />
+            <Chip
+              className="mt-2"
+              radius="sm"
+              variant="dot"
+              color={paymentGatewayColorMap[products.paymentGateway]}
+            >
+              Transaction Id:{products.transactionId}
+            </Chip>
+            <br />
+            <Chip
+              className="mt-2"
+              radius="sm"
+              variant="dot"
+              color={paymentGatewayColorMap[products.paymentGateway]}
+            >
+              Payment Number:{products.paymentNumber}
+            </Chip>
+          </Code>
         </div>
       </div>
       <div>
         <div className="border mt-5 p-3 rounded-md">
           <div className="">
-            {products.items.map((item) => (
-              <div key={item._id}>
+            {products?.items?.map((item, index) => (
+              <div key={index}>
                 <Divider className="my-2" />
                 <div className="flex justify-between ">
                   <div className="flex gap-2 mt-3  ">
@@ -90,22 +142,20 @@ const OrderDetails = () => {
         </div>
         <div className="mt-4 flex gap-3">
           <div>
-            <select
-              value={submitting}
-              onChange={handleSubmitting}
-              className="border-2 border-gray-300  rounded-md"
-            >
-              <option
-                defaultValue
-                className="text-success-500"
-                value="completed"
+            <div>
+              <select
+                value={submitting}
+                onChange={handleSubmitting}
+                className="border-2 border-gray-300 rounded-md"
               >
-                Completed
-              </option>
-              <option className=" text-danger-500" value="cancelled">
-                Cancelled
-              </option>
-            </select>
+                <option className="text-success-500" value="completed">
+                  Completed
+                </option>
+                <option className="text-danger-500" value="cancelled">
+                  Cancelled
+                </option>
+              </select>
+            </div>
           </div>
           <div>
             <Button
@@ -117,8 +167,20 @@ const OrderDetails = () => {
             </Button>
           </div>
         </div>
+        <div className="mt-4">
+          {submitting === "cancelled" && (
+            <div>
+              <Textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="max-w-xs"
+                placeholder="Describe why it was cancelled."
+              />
+            </div>
+          )}
+        </div>
       </div>
-      <DashTable />
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

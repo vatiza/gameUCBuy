@@ -76,7 +76,7 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/order-details/:id",
+        path: "/dashboard/:id",
         element: <OrderDetails />,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/orderdetails/${params.id}`),

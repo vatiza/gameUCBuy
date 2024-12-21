@@ -14,7 +14,7 @@ const DashboardLayouts = () => {
           Welcome Back,{" "}
           <span className="text-3xl font-semibold text-primary-600">Admin</span>
         </h1>
-        <p className="text-blue-700 text-xl ">{pathname}</p>
+        <p className="text-blue-700 text-xl">{pathname}</p>
       </div>
       <div className="px-2 lg:px-20 grid grid-cols-6 ">
         <div className="col-span-1 mt-5 ">
