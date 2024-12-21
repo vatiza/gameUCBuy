@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react";
-import { IoAnalytics } from "react-icons/io5";
-import { MdHome, MdTravelExplore } from "react-icons/md";
+import { IoAnalytics, IoBagAddSharp } from "react-icons/io5";
+import { MdHome } from "react-icons/md";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Nav from "../components/shared/navbar/Navbar";
 
@@ -25,15 +25,21 @@ const DashboardLayouts = () => {
             </Button>
           </Link>
           <Link to="/dashboard/analytics">
-            <Button color={pathname === "/dashboard/analytics" ? "primary" : ""}>
+            <Button
+              color={pathname === "/dashboard/analytics" ? "primary" : ""}
+            >
               <IoAnalytics />
               Analytics
             </Button>
           </Link>
-          <Link to="/explore">
-            <Button color={pathname === "/explore" ? "primary" : ""}>
-              <MdTravelExplore />
-              Explore
+          <Link to="/dashboard/add-new-products">
+            <Button
+              color={
+                pathname === "/dashboard/add-new-products" ? "primary" : ""
+              }
+            >
+              <IoBagAddSharp />
+              Add New Products
             </Button>
           </Link>
         </div>

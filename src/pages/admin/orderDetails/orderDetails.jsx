@@ -19,7 +19,7 @@ const OrderDetails = () => {
   const axiosSecure = useAxiosSecure();
   const [comment, setComment] = useState("");
   const [products] = useLoaderData();
-  console.log(products);
+
   const [submitting, setSubmitting] = useState("completed");
 
   const handleSubmitting = (event) => {
@@ -51,10 +51,10 @@ const OrderDetails = () => {
       <h1>Order Details</h1>
       <div className="flex flex-col lg:flex-row border p-3 rounded-md justify-between">
         <div>
-          <h1>Customer Name:{products.name}</h1>
-          <h1>Email:{products.email}</h1>
-          <h1>Phone: {products.phone}</h1>
-          <h1>Date: {moment(products.date).format("LL")}</h1>
+          <h1>Customer Name:{products?.name}</h1>
+          <h1>Email:{products?.email}</h1>
+          <h1>Phone: {products?.phone}</h1>
+          <h1>Date: {moment(products?.date).format("LL")}</h1>
           {products?.comment && (
             <Code className="mt-1" color="danger">
               Comment: {products?.comment}
@@ -63,7 +63,7 @@ const OrderDetails = () => {
           <br />
           <Chip
             className="capitalize my-1"
-            color={statusColorMap[products.status]}
+            color={statusColorMap[products?.status]}
             variant="shadow"
             radius="sm"
           >
@@ -74,36 +74,36 @@ const OrderDetails = () => {
         <div>
           <Code
             className="p-3"
-            color={paymentGatewayColorMap[products.paymentGateway]}
+            color={paymentGatewayColorMap[products?.paymentGateway]}
           >
             <h1 className="text-2xl flex items-center gap-3">
-              Amount:{products.totalPrice}
+              Amount:{products?.totalPrice}
               <FaBangladeshiTakaSign size={20} />
             </h1>
             <Chip
               radius="sm"
               variant="flat"
-              color={paymentGatewayColorMap[products.paymentGateway]}
+              color={paymentGatewayColorMap[products?.paymentGateway]}
             >
-              Payment Gateway:{products.paymentGateway}
+              Payment Gateway:{products?.paymentGateway}
             </Chip>
             <br />
             <Chip
               className="mt-2"
               radius="sm"
               variant="dot"
-              color={paymentGatewayColorMap[products.paymentGateway]}
+              color={paymentGatewayColorMap[products?.paymentGateway]}
             >
-              Transaction Id:{products.transactionId}
+              Transaction Id:{products?.transactionId}
             </Chip>
             <br />
             <Chip
               className="mt-2"
               radius="sm"
               variant="dot"
-              color={paymentGatewayColorMap[products.paymentGateway]}
+              color={paymentGatewayColorMap[products?.paymentGateway]}
             >
-              Payment Number:{products.paymentNumber}
+              Payment Number:{products?.paymentNumber}
             </Chip>
           </Code>
         </div>
@@ -120,20 +120,20 @@ const OrderDetails = () => {
                       height={70}
                       width={100}
                       className="object-cover"
-                      src={item.image}
-                      alt={item.title}
+                      src={item?.image}
+                      alt={item?.title}
                     />
 
                     <div>
-                      <h1>{item.productTitle}</h1>
+                      <h1>{item?.productTitle}</h1>
                       <h1>
-                        {item.uc} {item.productPrice}
+                        {item?.uc} {item.productPrice}
                       </h1>
                     </div>
                   </div>
                   <div>
-                    <h1>Player Id:{item.playerId}</h1>
-                    <h1>Player Name:{item.playerName}</h1>
+                    <h1>Player Id:{item?.playerId}</h1>
+                    <h1>Player Name:{item?.playerName}</h1>
                   </div>
                 </div>
               </div>
