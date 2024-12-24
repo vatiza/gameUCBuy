@@ -1,19 +1,28 @@
 import {
-    Button,
-    Input,
-    Radio,
-    RadioGroup,
-    Slider,
-    Textarea,
+  Button,
+  Input,
+  Progress,
+  Radio,
+  RadioGroup,
+  Slider,
+  Textarea,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddNewProducts = () => {
   const [counts, setCounts] = useState(1);
   const [fields, setFields] = useState([{ uc: "", amount: "" }]);
   const [discount, setDiscount] = useState(0.2);
+  const [priceRange, setPriceRange] = useState(["1000", "5000"]);
+  const rating = 3.4;
+  const [loading, setLoading] = useState(false);
+  const [productImgURL, setProductImgURL] = useState("");
+  const [postingLoading, setPostingLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     formState: { errors },
@@ -38,12 +47,50 @@ const AddNewProducts = () => {
     );
     setFields(updatedFields);
   };
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    setLoading(true);
+    const data = new FormData();
+    data.append("file", file);
+    data.append(
+      "upload_preset",
+      `${import.meta.env.VITE_Cloudinary_UPLOAD_PRESET}`
+    );
+    data.append("cloud_name", `${import.meta.env.VITE_Cloudinary_CLOUD_NAME}`);
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.VITE_Cloudinary_CLOUD_NAME
+      }/image/upload`,
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const uploadImageURL = await response.json();
+    setProductImgURL(uploadImageURL.url);
+    setLoading(false);
+  };
 
   const onSubmit = async (data) => {
+    setPostingLoading(true);
+    const loadingToastId = toast.loading("Posting...");
     const product = {
+      category: data.category,
+      title: data.pname,
+      priceRange: priceRange,
       discount: discount,
+      rating: rating,
+      description: data.description,
+      image: productImgURL,
+      uc: fields,
     };
-    console.log(data, product);
+    const res = await axiosSecure.post("/products", product);
+    if (res.status === 200) {
+      toast.dismiss(loadingToastId);
+      toast.success("Added New Product Successfully !");
+      setPostingLoading(false);
+    }
   };
 
   return (
@@ -73,7 +120,10 @@ const AddNewProducts = () => {
             </div>
             <div className="mt-5 border rounded-lg p-5">
               <h1>Category</h1>
-              <RadioGroup label="Select product category">
+              <RadioGroup
+                label="Select product category"
+                {...register("category", { required: "Required" })}
+              >
                 <Radio
                   {...register("category", { required: "Required" })}
                   value="game"
@@ -96,15 +146,31 @@ const AddNewProducts = () => {
             </div>
           </div>
 
-          <div className="border p-4 rounded-lg">
-            <h1>Prouct Image</h1>
-            <input
-              required
-              id="file-upload"
-              type="file"
-              className="max-w-xs border border-gray-300 rounded-md my-2 px-3 py-2 text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <h1>Price</h1>
+          <div className="border p-4 rounded-lg ">
+            <h1>Product Image</h1>
+            <div className=" border-dotted border-2  top-1/2   rounded-lg ">
+              {loading ? (
+                <Progress
+                  className="max-w-md"
+                  label="Uploading..."
+                  value={55}
+                />
+              ) : null}
+              {productImgURL ? (
+                <img
+                  src={productImgURL}
+                  alt="product"
+                  className="w-40 h-40 cover rounded-lg "
+                />
+              ) : null}
+              <input
+                required
+                type="file"
+                onChange={handleFileUpload}
+                className="max-w-xs border my-5 mx-2 p-2 rounded-lg  text-sm shadow-sm "
+              />
+            </div>
+            <h1 className="mt-3">UC Price</h1>
             <div className="border p-5 rounded-lg ">
               <div className="flex  gap-4">
                 <Button
@@ -126,16 +192,16 @@ const AddNewProducts = () => {
                 {fields.map((field, index) => (
                   <div key={index} className="grid grid-cols-2 gap-4 mt-3">
                     <Input
-                      isRequired
+                      required
                       label="UC"
-                      type="text"
+                      type="number"
                       value={field.uc}
                       onChange={(e) =>
                         handleFields(index, "uc", e.target.value)
                       }
                     />
                     <Input
-                      isRequired
+                      required
                       label="Amount"
                       type="number"
                       value={field.amount}
@@ -147,7 +213,6 @@ const AddNewProducts = () => {
                 ))}
               </div>
             </div>
-
             <div className="mt-4">
               <Slider
                 className="max-w-md"
@@ -175,10 +240,23 @@ const AddNewProducts = () => {
                 onChange={(value) => setDiscount(value)}
               />
             </div>
+            <div>
+              <Slider
+                className="max-w-md"
+                defaultValue={[1000, 5000]}
+                formatOptions={{ style: "currency", currency: "BDT" }}
+                label="Price Range"
+                maxValue={10000}
+                minValue={0}
+                step={50}
+                onChange={(value) => setPriceRange(value)}
+              />
+            </div>
           </div>
           <button type="submit">Submit</button>
         </div>
       </form>
+      <Toaster position="top-center" reverseOrder={true} />
     </div>
   );
 };
