@@ -13,7 +13,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const ViewOrderTable = ({ orders }) => {
-  console.log(orders);
+ 
   if (orders.length === 0) return <p>No orders found.</p>;
   const statusColorMap = {
     completed: "success",

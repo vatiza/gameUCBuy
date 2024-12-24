@@ -6,7 +6,7 @@ import ProductsCard from "../shared/productsCard/productsCard";
 const GiftCard = () => {
   const [products, loading] = useProducts();
   const giftCards = products.filter(
-    (product) => product.category === "Gift Card"
+    (product) => product.category === "gift-card"
   );
   const giftCardsSlice = giftCards.slice(0, 6);
   if (loading) {
@@ -31,7 +31,9 @@ const GiftCard = () => {
         color="primary"
         variant="solid"
       >
-        <Link to="/shop?category=gift card">More Products</Link>
+        <Link to="/shop?category=gift-card" state="gift-card">
+          More Products
+        </Link>
       </Button>
     </div>
   );

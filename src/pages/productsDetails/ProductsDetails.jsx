@@ -1,32 +1,38 @@
-import { Button, Divider, Image, Input } from "@nextui-org/react";
+import { Button, Chip, Divider, Image, Input } from "@nextui-org/react";
 import { Rating } from "@smastrom/react-rating";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import FaceBookShare from "../../components/shared/facebook-share/fb-share";
+import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
 
 const ProductsDetails = () => {
+  const crrentUrl = window.location.href;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [isAdmin] = useAdmin();
   const [product] = useLoaderData();
-  const { title, image, description, rating, uc, price, _id } = product;
+  const { title, image, description, rating, priceRange, discount, uc, _id } =
+    product;
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [orderUc, setOrderUc] = useState(null);
   const { user } = useAuth();
-
+  const ifDiscount = discount * 100;
   const axiosSecure = useAxiosSecure();
   const [, refetch] = useCart();
   const navigate = useNavigate();
-
+  const discountCalculation = ((selectedPrice * discount) / 100) * 100;
+  const discountedPrice = selectedPrice - discountCalculation;
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -40,8 +46,6 @@ const ProductsDetails = () => {
     if (!orderUc || selectedPrice === null) {
       toast.error("Please select UC");
     } else if (!user) {
-      console.log("User not logged in");
-
       Swal.fire({
         title: "You must be log in",
         showCancelButton: true,
@@ -59,8 +63,9 @@ const ProductsDetails = () => {
       const cartItems = {
         email: user?.email,
         title: title,
+        discount: discount,
         productId: _id,
-        price: selectedPrice,
+        price: discountedPrice,
         uc: orderUc,
         image: image,
         playerId: playerId,
@@ -68,7 +73,6 @@ const ProductsDetails = () => {
       };
       axiosSecure.post("/carts", cartItems).then((res) => {
         if (res.data.insertedId) {
-          console.log("Item added to cart");
           toast.success("Product added to cart");
           refetch();
         }
@@ -77,15 +81,20 @@ const ProductsDetails = () => {
   };
 
   return (
-    <div className="">
+    <div className="px-0 lg:px-20">
       <Helmet>
         <title>Buy {title}</title>
       </Helmet>
-      <div className="grid grid-flow-row lg:grid-cols-2 gap-2">
-        <div className="">
-          <Image src={image} />
+      <div className="grid grid-flow-row lg:grid-cols-2 gap-6">
+        <div className="relative w-full   ">
+          <Image className="w-full " src={image} />
+          {ifDiscount && (
+            <p className="absolute top-0 z-10 bg-red-500 text-white text-xs p-2 rounded ">
+              {ifDiscount}% OFF
+            </p>
+          )}
         </div>
-        <div>
+        <div className="w-full">
           <h1 className="text-xl lg:text-2xl">{title}</h1>
           <p>{description}</p>
           <div className="flex items-center ">
@@ -94,23 +103,37 @@ const ProductsDetails = () => {
           </div>
           <div className="mt-5">
             {selectedPrice ? (
-              <>
-                <p className="text-lg font-semibold mt-2">{selectedPrice}৳</p>
-              </>
+              <div className="flex items-center gap-3">
+                <p
+                  className={`text-lg font-semibold mt-2 ${
+                    discountedPrice ? "line-through text-red-500" : ""
+                  }`}
+                >
+                  {selectedPrice}৳
+                </p>
+                <span className="text-sm font-extralight text-red-600 ">
+                  ({discount * 100}% OFF)
+                </span>
+                <p className="no-underline text-lg font-semibold mt-2">
+                  {discountedPrice}৳{" "}
+                </p>
+              </div>
             ) : (
               <>
-                <p className="text-lg font-semibold mt-2">{price}৳</p>
+                <p className="text-lg font-semibold mt-2">
+                  {priceRange[0]}-{priceRange[1]}৳
+                </p>
               </>
             )}
-            {Object.entries(uc).map(([ucItem, ucPrice], index) => (
+            {uc.map(({ uc: ucItem, amount: ucAmount }, index) => (
               <Button
-                color={selectedPrice == ucPrice ? "primary" : ""}
+                color={selectedPrice === ucAmount ? "primary" : ""}
                 key={index}
-                className="mx-2 border"
+                className="mx-2 border my-2"
                 size="sm"
-                onClick={() => handleSelectUc(ucItem, ucPrice)}
+                onClick={() => handleSelectUc(ucItem, ucAmount)}
               >
-                {ucItem}
+                {`${ucItem} UC - ৳ ${ucAmount}`}
               </Button>
             ))}
           </div>
@@ -163,26 +186,23 @@ const ProductsDetails = () => {
                   <p className="text-red-500">This field is required</p>
                 )}
               </div>
-              <div className="flex  justify-evenly mt-5">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Add To Cart
-                </button>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                  Buy Now
-                </button>
-              </div>
+              {isAdmin ? (
+                <Chip className="my-5" color="danger">
+                  You are Admin, you don&apos;t buy.
+                </Chip>
+              ) : (
+                <div className=" mt-5">
+                  <Button color="primary" type="submit">
+                    Add To Cart
+                  </Button>
+                </div>
+              )}
             </form>
             <Divider className="my-3" />
             <div className="flex justify-between">
               <p>Add to wishlist</p>
-              <div className="flex items-center gap-2">
-                <p>Share:</p>
-
-                <FaFacebookF />
-                <FaWhatsapp />
+              <div>
+                <FaceBookShare url={crrentUrl} />
               </div>
             </div>
           </div>

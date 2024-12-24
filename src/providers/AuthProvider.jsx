@@ -40,9 +40,7 @@ const AuthProvider = ({ children }) => {
         axiosPublic.post("/jwt", userInfo).then((res) => {
           if (res.data.token) {
             localStorage.setItem("jwt", res.data.token);
-            axiosPublic.post("/users", userInfo).then((res) => {
-              console.log("User created", res.data);
-            });
+            axiosPublic.post("/users", userInfo).then((res) => {});
           }
         });
 
@@ -66,7 +64,6 @@ const AuthProvider = ({ children }) => {
     googleLogin,
   };
   return (
-
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
 };

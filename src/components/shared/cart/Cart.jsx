@@ -71,8 +71,8 @@ const Cart = () => {
               </Link>
               <div className="flex items-center justify-between">
                 <p className="font-semibold">
-                  {item.uc} <span className="text-blue-700 ">{item.price}</span>{" "}
-                  BDT
+                  {item.uc} UC{" "}
+                  <span className="text-blue-700 ">{item.price}</span> BDT
                 </p>
                 <Tooltip content="Remove Item">
                   <button

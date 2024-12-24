@@ -30,7 +30,7 @@ const OrderDetails = () => {
       status: submitting,
       comment: comment,
     });
-    console.log(res);
+    
     if (res.data.modifiedCount > 0) {
       toast.success(`Order ${submitting} Successfully`);
       refetch();
@@ -110,7 +110,7 @@ const OrderDetails = () => {
       </div>
       <div>
         <div className="border mt-5 p-3 rounded-md">
-          <div className="">
+          <div >
             {products?.items?.map((item, index) => (
               <div key={index}>
                 <Divider className="my-2" />

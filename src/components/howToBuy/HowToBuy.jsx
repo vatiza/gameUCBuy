@@ -112,7 +112,7 @@ const HowToBuy = () => {
         <iframe
           title="vimeo-player"
           src="https://player.vimeo.com/video/903759540?h=9677daa9e2"
-          className=""
+          
           width={isMobile ? 350 : 600}
           height={isMobile ? 200 : 600}
           frameBorder="0"

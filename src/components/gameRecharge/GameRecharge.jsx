@@ -7,7 +7,7 @@ import ProductsCard from "../shared/productsCard/productsCard";
 const GameRecharge = () => {
   const [products, loading] = useProducts();
   const gameRecharges = products.filter(
-    (product) => product.category === "Game"
+    (product) => product.category === "game"
   );
   const gameRechargesSlice = gameRecharges.slice(0, 6);
 
@@ -29,17 +29,15 @@ const GameRecharge = () => {
         ))}
       </div>
 
-      <Link to="/shop?category=game">
-        {" "}
-        <Button
-          className="flex mx-auto lg:hidden  my-2 "
-          color="primary"
-          variant="solid"
-        >
-          {" "}
+      <Button
+        className="flex mx-auto lg:hidden  my-2 "
+        color="primary"
+        variant="solid"
+      >
+        <Link to="/shop?category=game" state="game">
           More Products
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     </div>
   );
 };

@@ -4,12 +4,15 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { DeleteIcon } from "../../assets/svg/DeleteIcon";
 import OrderModal from "../../components/modal/OrderModal";
+import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
-import useAuth from "../../hooks/useAuth";
 
 const CheckOutPage = () => {
   const [cart, refetch, loading] = useCart();
+
+  // findout products applied for discount
+
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
@@ -24,7 +27,6 @@ const CheckOutPage = () => {
   const onSubmit = (data) => {
     const name = data.name;
     const phone = data.phone;
-
     const note = data?.note;
     const paymentGateway = data.paymentgateway;
     const paymentNumber = data.paymentnumber;
@@ -35,6 +37,7 @@ const CheckOutPage = () => {
       phone: phone,
       note: note,
       date: new Date(),
+      
       status: "pending",
 
       totalPrice: cart.reduce((total, item) => total + item.price, 0),
@@ -61,7 +64,6 @@ const CheckOutPage = () => {
             .delete("/removecart", { data: { ids: cartItemsIds } })
             .then((res) => {
               if (res.data.deletedCount > 0) {
-                console.log("Order placed successfully");
                 toast.success("Order placed successfully");
                 setIsModalOpen(true);
                 refetch();
@@ -70,18 +72,15 @@ const CheckOutPage = () => {
 
           setTrackingId(res.data.insertedId);
         } else {
-          console.log("Error placing order");
           toast.error("Error placing order");
         }
       })
       .catch((err) => {
-        console.log(err.response.data.error);
         toast.error(err.response.data.error);
       });
   };
 
   const handleRemoveItem = (id) => {
-    console.log("Remove Item", id);
     axiosSecure.delete(`/carts/${id}`).then((res) => {
       if (res.data.deletedCount > 0) {
         refetch();
@@ -157,11 +156,11 @@ const CheckOutPage = () => {
                 {...register("transactionid", {
                   required: true,
                 })}
-                className="pt-5 lg:w-1/2"
+                className="pt-5 lg:w-1/2 uppercase"
                 type="text"
-                style={{ textTransform: "uppercase" }}
+                
                 label="Transaction ID *"
-                placeholder="Transaction ID"
+                placeholder="BE Care full"
                 labelPlacement="outside"
               />
               <p className="mt-5">
@@ -211,7 +210,13 @@ const CheckOutPage = () => {
                       <p>ID: {item.playerId}</p>
                       <p>Name: {item.playerName}</p>
                     </div>
-                    <p className="ml-auto">{item.price}৳</p>
+
+                    <p className="ml-auto">
+                      <span className="text-sm text-red-600 me-12">
+                        applied {item?.discount * 100}% off
+                      </span>{" "}
+                      {item.price}৳
+                    </p>
                   </div>
                 </div>
               ))}

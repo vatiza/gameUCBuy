@@ -3,7 +3,7 @@ import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 
 const useOrders = (filter) => {
-  console.log(filter);
+  
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {

@@ -8,7 +8,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,15 +20,9 @@ const AddNewProducts = () => {
   const [priceRange, setPriceRange] = useState(["1000", "5000"]);
   const rating = 3.4;
   const [loading, setLoading] = useState(false);
-  const [productImgURL, setProductImgURL] = useState("");
-  const [postingLoading, setPostingLoading] = useState(false);
+  const [, setPostingLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const fieldIncrease = () => {
     const newCount = counts + 1;
     setCounts(newCount);
@@ -47,49 +41,50 @@ const AddNewProducts = () => {
     );
     setFields(updatedFields);
   };
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+
+  const onSubmit = async (data) => {
+    const file = data.image[0];
     setLoading(true);
-    const data = new FormData();
-    data.append("file", file);
-    data.append(
+    const imgData = new FormData();
+    imgData.append("file", file);
+    imgData.append(
       "upload_preset",
       `${import.meta.env.VITE_Cloudinary_UPLOAD_PRESET}`
     );
-    data.append("cloud_name", `${import.meta.env.VITE_Cloudinary_CLOUD_NAME}`);
+    imgData.append(
+      "cloud_name",
+      `${import.meta.env.VITE_Cloudinary_CLOUD_NAME}`
+    );
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${
         import.meta.env.VITE_Cloudinary_CLOUD_NAME
       }/image/upload`,
       {
         method: "POST",
-        body: data,
+        body: imgData,
       }
     );
     const uploadImageURL = await response.json();
-    setProductImgURL(uploadImageURL.url);
     setLoading(false);
-  };
-
-  const onSubmit = async (data) => {
-    setPostingLoading(true);
-    const loadingToastId = toast.loading("Posting...");
-    const product = {
-      category: data.category,
-      title: data.pname,
-      priceRange: priceRange,
-      discount: discount,
-      rating: rating,
-      description: data.description,
-      image: productImgURL,
-      uc: fields,
-    };
-    const res = await axiosSecure.post("/products", product);
-    if (res.status === 200) {
-      toast.dismiss(loadingToastId);
-      toast.success("Added New Product Successfully !");
-      setPostingLoading(false);
+    if (uploadImageURL.url) {
+      setPostingLoading(true);
+      const loadingToastId = toast.loading("Posting...");
+      const product = {
+        category: data.category,
+        title: data.pname,
+        priceRange: priceRange,
+        discount: discount,
+        rating: rating,
+        description: data.description,
+        image: uploadImageURL.url,
+        uc: fields,
+      };
+      const res = await axiosSecure.post("/products", product);
+      if (res.status === 200) {
+        toast.dismiss(loadingToastId);
+        toast.success("Added New Product Successfully !");
+        setPostingLoading(false);
+      }
     }
   };
 
@@ -136,12 +131,6 @@ const AddNewProducts = () => {
                 >
                   Gift Card
                 </Radio>
-                <Radio
-                  {...register("category", { required: "Required" })}
-                  value="card"
-                >
-                  Card
-                </Radio>
               </RadioGroup>
             </div>
           </div>
@@ -156,17 +145,11 @@ const AddNewProducts = () => {
                   value={55}
                 />
               ) : null}
-              {productImgURL ? (
-                <img
-                  src={productImgURL}
-                  alt="product"
-                  className="w-40 h-40 cover rounded-lg "
-                />
-              ) : null}
+
               <input
                 required
                 type="file"
-                onChange={handleFileUpload}
+                {...register("image", { required: "Required" })}
                 className="max-w-xs border my-5 mx-2 p-2 rounded-lg  text-sm shadow-sm "
               />
             </div>
@@ -240,9 +223,9 @@ const AddNewProducts = () => {
                 onChange={(value) => setDiscount(value)}
               />
             </div>
-            <div>
+            <div className="mt-9">
               <Slider
-                className="max-w-md"
+                className="max-w-md "
                 defaultValue={[1000, 5000]}
                 formatOptions={{ style: "currency", currency: "BDT" }}
                 label="Price Range"
@@ -253,7 +236,9 @@ const AddNewProducts = () => {
               />
             </div>
           </div>
-          <button type="submit">Submit</button>
+          <Button color="primary" className="w-1/2 my-8" type="submit">
+            Submit
+          </Button>
         </div>
       </form>
       <Toaster position="top-center" reverseOrder={true} />
