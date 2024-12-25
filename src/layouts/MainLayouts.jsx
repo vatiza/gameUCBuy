@@ -11,21 +11,25 @@ const MainLayouts = () => {
       setLoading(false);
     }, 1500);
   }, []);
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen ">
+        <HashLoader color="#1d71ff" loading size={100} />
+      </div>
+    );
+  }
   return (
     <div>
-      {loading ? (
-        <div className="flex justify-center items-center min-h-screen">
-          <HashLoader color="#1d71ff" loading size={100} />
-        </div>
-      ) : (
-        <>
-          <Nav />
-          <div className="mx-3">
-            <Outlet />
+      <>
+        <Nav />
+        <div className="mx-3">
+          <Outlet />
+          <div>
+            {" "}
             <HowToBuy />
           </div>
-        </>
-      )}
+        </div>
+      </>
     </div>
   );
 };

@@ -109,14 +109,14 @@ const HowToBuy = () => {
             </div>
           </div>
         </div>
-        <iframe
+        {/* <iframe
           title="vimeo-player"
           src="https://player.vimeo.com/video/903759540?h=9677daa9e2"
           
           width={isMobile ? 350 : 600}
           height={isMobile ? 200 : 600}
           frameBorder="0"
-        ></iframe>
+        ></iframe> */}
       </div>
     </div>
   );

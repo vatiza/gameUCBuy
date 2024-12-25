@@ -5,7 +5,7 @@ import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
   // TODO: Replace with your own API endpoint
-  baseURL: "http://localhost:5000",
+  baseURL: "https://server-uc-shop.vercel.app",
 });
 
 const useAxiosSecure = () => {

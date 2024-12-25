@@ -81,7 +81,7 @@ const ProductsDetails = () => {
   };
 
   return (
-    <div className="px-0 lg:px-20">
+    <div className="px-0 lg:px-20 mt-10">
       <Helmet>
         <title>Buy {title}</title>
       </Helmet>
@@ -94,7 +94,7 @@ const ProductsDetails = () => {
             </p>
           )}
         </div>
-        <div className="w-full">
+        <div className="">
           <h1 className="text-xl lg:text-2xl">{title}</h1>
           <p>{description}</p>
           <div className="flex items-center ">

@@ -34,7 +34,7 @@ const routes = createBrowserRouter([
         element: <ProductsDetails />,
         loader: ({ params }) =>
           //
-          fetch(`http://localhost:5000/products/${params.id}`),
+          fetch(`https://server-uc-shop.vercel.app/products/${params.id}`),
       },
       {
         path: "/checkout",
@@ -80,7 +80,7 @@ const routes = createBrowserRouter([
         path: "/dashboard/:id",
         element: <OrderDetails />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/orderdetails/${params.id}`),
+          fetch(`https://server-uc-shop.vercel.app/orderdetails/${params.id}`),
       },
       {
         path: "/dashboard/add-new-products",
